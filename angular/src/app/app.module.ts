@@ -44,6 +44,12 @@ import { EventsComponent } from './events/event.component';
 import { CreateEventComponent } from './events/create-event/create-event.component';
 import { EventDetailComponent } from './events/event-detail/event-detail.component';
 
+
+//table
+import { TablesComponent } from './tables/table.component';
+import { CreateTableComponent } from './tables/create-table/create-table.component';
+import { TableDetailComponent } from './tables/table-detail/table-detail.component';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -77,7 +83,12 @@ import { EventDetailComponent } from './events/event-detail/event-detail.compone
         //event
         EventsComponent,
         CreateEventComponent,
-        EventDetailComponent
+        EventDetailComponent,
+
+        //table
+        TablesComponent,
+        CreateTableComponent,
+        TableDetailComponent
     ],
     imports: [
         CommonModule,

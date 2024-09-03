@@ -50,7 +50,7 @@ export class CreateTableComponent extends AppComponentBase implements OnInit {
       return;
     }
 
-    this.event.date = selectedDate;
+    this.table.date = selectedDate;
 
     this._tableService.create(this.table).subscribe(
       () => {

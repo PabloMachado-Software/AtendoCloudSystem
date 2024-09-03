@@ -18,7 +18,7 @@
           class="form-control"
           type="text"
           name="Title"
-          [(ngModel)]="Mesa.title"
+          [(ngModel)]="table.title"
           required
           maxlength="64"
           minlength="2"
@@ -31,7 +31,7 @@
         <textarea
           name="Description"
           class="form-control"
-          [(ngModel)]="Mesa.description"
+          [(ngModel)]="table.description"
         ></textarea>
       </div>
     </div>
@@ -56,7 +56,7 @@
           type="number"
           name="MaxRegistrationCount"
           class="form-control"
-          [(ngModel)]="Mesa.maxRegistrationCount"
+          [(ngModel)]="table.maxRegistrationCount"
         />
       </div>
     </div>

@@ -7,13 +7,13 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: "Staging"
       ConnectionStrings__Default: "Server=10.0.75.1; Database=AtendoCloudSystemDb; User=AtendoCloudSystemUser; Password=YourStrongPassword;TrustServerCertificate=True;"
-      App__ServerRootAddress: "http://localhost:44311/"
+      App__ServerRootAddress: "http://localhost:44312/"
       App__ClientRootAddress: "http://localhost:4200/"
       App__CorsOrigins: "http://localhost:4200"
       TZ: "America/Toronto"
       Kestrel__Endpoints__Http__Url: "http://+:80"
     ports:
-      - "44311:80"
+      - "44312:80"
     volumes:
       - "./Host-Logs:/app/App_Data/Logs"
     restart: always
