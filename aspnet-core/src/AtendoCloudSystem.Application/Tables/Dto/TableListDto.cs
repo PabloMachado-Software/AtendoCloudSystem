@@ -13,6 +13,7 @@ namespace AtendoCloudSystem.Tables.Dto
         public string Description { get; set; }
 
         public string Status { get; set; }
+        public bool IsCancelled { get; set; }
 
     }
 }

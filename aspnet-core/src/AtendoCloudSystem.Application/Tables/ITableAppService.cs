@@ -18,9 +18,5 @@ namespace AtendoCloudSystem.Tables
         Task CreateAsync(CreateTableInput input);
 
         Task CancelAsync(EntityDto<Guid> input);
-
-        Task<TableRegisterOutput> RegisterAsync(EntityDto<Guid> input);
-
-        Task CancelRegistrationAsync(EntityDto<Guid> input);
     }
 }

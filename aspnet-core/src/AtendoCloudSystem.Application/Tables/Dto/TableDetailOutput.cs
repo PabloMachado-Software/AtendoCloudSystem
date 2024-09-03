@@ -15,6 +15,6 @@ namespace AtendoCloudSystem.Tables.Dto
 
         public string Status { get; set; }
 
-        public ICollection<TableRegistrationDto> Registrations { get; set; }
+        public bool IsCancelled { get; set; }
     }
 }

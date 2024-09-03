@@ -27,9 +27,7 @@ namespace AtendoCloudSystem.Tables
 
         public virtual string Status { get; protected set; }
 
-
-        [ForeignKey("TableId")]
-        public virtual ICollection<TableRegistration> Registrations { get; protected set; }
+        public virtual bool IsCancelled { get; protected set; }
 
         /// <summary>
         /// We don't make constructor public and forcing to create Tables using <see cref="Create"/> method.
@@ -53,9 +51,13 @@ namespace AtendoCloudSystem.Tables
                 Description = description,
             };
 
-           @Table.Registrations = new Collection<TableRegistration>();
-
            return @Table;
+        }
+
+
+        internal void Cancel()
+        {
+            IsCancelled = true;
         }
     }
 }

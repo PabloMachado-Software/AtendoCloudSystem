@@ -16,10 +16,5 @@ namespace AtendoCloudSystem.Tables
 
         void Cancel(Table @table);
 
-        Task<TableRegistration> RegisterAsync(Table @table, User user);
-
-        Task CancelRegistrationAsync(Table @table, User user);
-
-        Task<IReadOnlyList<User>> GetRegisteredUsersAsync(Table @table);
     }
 }

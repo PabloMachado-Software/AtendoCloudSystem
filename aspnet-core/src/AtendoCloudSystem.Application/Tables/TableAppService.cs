@@ -34,7 +34,6 @@ namespace AtendoCloudSystem.Tables
         {
             var tables = await _tableRepository
                 .GetAll()
-                .Include(e => e.Registrations)                
                 .OrderByDescending(e => e.CreationTime)
                 .Take(64)
                 .ToListAsync();
@@ -46,8 +45,6 @@ namespace AtendoCloudSystem.Tables
         {
             var @table = await _tableRepository
                 .GetAll()
-                .Include(e => e.Registrations)
-                .ThenInclude(r => r.User)
                 .Where(e => e.Id == input.Id)
                 .FirstOrDefaultAsync();
 
@@ -62,7 +59,7 @@ namespace AtendoCloudSystem.Tables
         public async Task CreateAsync(CreateTableInput input)
         {
             var tenantId = AbpSession.TenantId.Value;
-            var @table = Table.Create( tenantId, input.Numero,input.Description,input.Status);
+            var @table = Table.Create(tenantId, input.Numero, input.Description, input.Status);
             await _tableManager.CreateAsync(@table);
         }
 
@@ -72,32 +69,5 @@ namespace AtendoCloudSystem.Tables
             _tableManager.Cancel(@table);
         }
 
-        public async Task<TableRegisterOutput> RegisterAsync(EntityDto<Guid> input)
-        {
-            var registration = await RegisterAndSaveAsync(
-                await _tableManager.GetAsync(input.Id),
-                await GetCurrentUserAsync()
-                );
-
-            return new TableRegisterOutput
-            {
-                RegistrationId = registration.Id
-            };
-        }
-
-        public async Task CancelRegistrationAsync(EntityDto<Guid> input)
-        {
-            await _tableManager.CancelRegistrationAsync(
-                await _tableManager.GetAsync(input.Id),
-                await GetCurrentUserAsync()
-                );
-        }
-
-        private async Task<TableRegistration> RegisterAndSaveAsync(Table @table, User user)
-        {
-            var registration = await _tableManager.RegisterAsync(@table, user);
-            await CurrentUnitOfWork.SaveChangesAsync();
-            return registration;
-        }
     }
 }
