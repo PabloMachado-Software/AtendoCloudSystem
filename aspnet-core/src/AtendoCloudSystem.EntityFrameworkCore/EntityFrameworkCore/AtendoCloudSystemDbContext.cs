@@ -18,11 +18,7 @@ namespace AtendoCloudSystem.EntityFrameworkCore
 
         public virtual DbSet<Table> Tables { get; set; }
 
-        public virtual DbSet<TableRegistration> TableRegistrations { get; set; }
-
         public virtual DbSet<Menu> Menus { get; set; }
-
-        public virtual DbSet<MenuRegistration> MenuRegistrations { get; set; }
 
         public AtendoCloudSystemDbContext(DbContextOptions<AtendoCloudSystemDbContext> options)
             : base(options)

@@ -18,9 +18,6 @@ namespace AtendoCloudSystem.Menus
         Task CreateAsync(CreateMenuInput input);
 
         Task CancelAsync(EntityDto<Guid> input);
-
-        Task<MenuRegisterOutput> RegisterAsync(EntityDto<Guid> input);
-
-        Task CancelRegistrationAsync(EntityDto<Guid> input);
+      
     }
 }

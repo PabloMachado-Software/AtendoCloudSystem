@@ -12,6 +12,8 @@ namespace AtendoCloudSystem.Menus.Dto
         public string Categoria { get; set; }
 
         public double Preco { get; set; }
+
+        public bool IsCancelled { get; set; }
     }
 }
 

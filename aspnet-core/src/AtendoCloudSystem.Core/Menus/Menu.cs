@@ -30,15 +30,7 @@ namespace AtendoCloudSystem.Menus
 
         public virtual bool IsCancelled { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets the maximum registration count.
-        /// 0: Unlimited.
-        /// </summary>
-        [Range(0, int.MaxValue)]
-        public virtual int MaxRegistrationCount { get; protected set; }
 
-        [ForeignKey("MenuId")]
-        public virtual ICollection<MenuRegistration> Registrations { get; protected set; }
 
         /// <summary>
         /// We don't make constructor public and forcing to create events using <see cref="Create"/> method.
@@ -62,75 +54,13 @@ namespace AtendoCloudSystem.Menus
                 Preco = preco
             };
 
-            //@menu.SetDate(date);
-
-            @menu.Registrations = new Collection<MenuRegistration>();
-
             return @menu;
-        }
-
-        public bool IsInPast()
-        {
-            return false;
-        }
-
-        public bool IsAllowedCancellationTimeEnded()
-        {
-            //return Date.Subtract(Clock.Now).TotalHours <= 2.0; //2 hours can be defined as Event property and determined per event
-            return false;
-        }
-
-        public void ChangeDate(DateTime date)
-        {
-            //if (date == Date)
-            //{
-            //    return;
-            //}
-
-            //SetDate(date);
-
-            //DomainMenus.EventBus.Trigger(new MenuDateChangedEvent(this));
-        }
+        }        
+       
 
         internal void Cancel()
         {
-            AssertNotInPast();
             IsCancelled = true;
-        }
-
-        private void SetDate(DateTime date)
-        {
-            //AssertNotCancelled();
-
-            //if (date < Clock.Now)
-            //{
-            //    throw new UserFriendlyException("Can not set an event's date in the past!");
-            //}
-
-            //if (date <= Clock.Now.AddHours(3)) //3 can be configurable per tenant
-            //{
-            //    throw new UserFriendlyException("Should set an event's date 3 hours before at least!");
-            //}
-
-            //Date = date;
-
-            //DomainMenus.EventBus.Trigger(new MenuDateChangedEvent(this));
-        }
-
-        private void AssertNotInPast()
-        {
-            if (IsInPast())
-            {
-                throw new UserFriendlyException("This event was in the past");
-            }
-        }
-
-        private void AssertNotCancelled()
-        {
-            if (IsCancelled)
-            {
-                throw new UserFriendlyException("This event is canceled!");
-            }
-        }
+        }       
     }
 }

@@ -34,8 +34,7 @@ namespace AtendoCloudSystem.Menus
         public async Task<ListResultDto<MenuListDto>> GetListAsync(GetMenuListInput input)
         {
             var menus = await _menuRepository
-                .GetAll()
-                .Include(e => e.Registrations)                
+                .GetAll()              
                 .OrderByDescending(e => e.CreationTime)
                 .Take(64)
                 .ToListAsync();
@@ -47,8 +46,6 @@ namespace AtendoCloudSystem.Menus
         {
             var @menu = await _menuRepository
                 .GetAll()
-                .Include(e => e.Registrations)
-                .ThenInclude(r => r.User)
                 .Where(e => e.Id == input.Id)
                 .FirstOrDefaultAsync();
 
@@ -72,33 +69,6 @@ namespace AtendoCloudSystem.Menus
             var @menu = await _menuManager.GetAsync(input.Id);
             _menuManager.Cancel(@menu);
         }
-
-        public async Task<MenuRegisterOutput> RegisterAsync(EntityDto<Guid> input)
-        {
-            var registration = await RegisterAndSaveAsync(
-                await _menuManager.GetAsync(input.Id),
-                await GetCurrentUserAsync()
-                );
-
-            return new MenuRegisterOutput
-            {
-                RegistrationId = registration.Id
-            };
-        }
-
-        public async Task CancelRegistrationAsync(EntityDto<Guid> input)
-        {
-            await _menuManager.CancelRegistrationAsync(
-                await _menuManager.GetAsync(input.Id),
-                await GetCurrentUserAsync()
-                );
-        }
-
-        private async Task<MenuRegistration> RegisterAndSaveAsync(Menu @menu, User user)
-        {
-            var registration = await _menuManager.RegisterAsync(@menu, user);
-            await CurrentUnitOfWork.SaveChangesAsync();
-            return registration;
-        }
+      
     }
 }

@@ -16,11 +16,6 @@ namespace AtendoCloudSystem.Menus
         Task CreateAsync(Menu @menu);
 
         void Cancel(Menu @menu);
-
-        Task<MenuRegistration> RegisterAsync(Menu @menu, User user);
-
-        Task CancelRegistrationAsync(Menu @menu, User user);
-
-        Task<IReadOnlyList<User>> GetRegisteredUsersAsync(Menu @menu);
+       
     }
 }

@@ -18,7 +18,8 @@ namespace AtendoCloudSystem.Menus.Dto
 
         public double Preco { get; set; }
 
-        public ICollection<MenuRegistrationDto> Registrations { get; set; }
+        public bool IsCancelled { get; set; }
+
     }
 }
 
