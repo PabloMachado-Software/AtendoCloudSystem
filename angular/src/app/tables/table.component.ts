@@ -9,7 +9,7 @@ import {
   PagedListingComponentBase,
   PagedRequestDto,
 } from "shared/paged-listing-component-base";
-import { CreateTableComponent } from "../tables/create-table/create-table.component";
+import { CreateTableComponent } from "app/tables/create-table/create-table.component";
 import { appModuleAnimation } from "@shared/animations/routerTransition";
 
 @Component({
@@ -36,7 +36,7 @@ export class TablesComponent extends PagedListingComponentBase<TableListDto> {
     pageNumber: number,
     finishedCallback: Function
   ): void {
-    this.loadTables();
+    this.loadTable();
     finishedCallback();
   }
 
@@ -55,7 +55,7 @@ export class TablesComponent extends PagedListingComponentBase<TableListDto> {
   }
 
   includeCanceledTablesCheckboxChanged() {
-    this.loadTables();
+    this.loadTable();
   }
 
   createTable(): void {
@@ -72,7 +72,7 @@ export class TablesComponent extends PagedListingComponentBase<TableListDto> {
     });
   }
 
-  loadTables(): void {
+  loadTable(): void {
     this._tableService
       .getList(this.includeCanceledTables)
       .subscribe((result: TableListDtoListResultDto) => {

@@ -9,8 +9,6 @@ namespace AtendoCloudSystem.Tables.Dto
     [AutoMapFrom(typeof(Table))]
     public class TableDetailOutput : FullAuditedEntityDto<Guid>
     {
-        public Guid id { get; set; }
-
         public string Numero { get; set; }
 
         public string Description { get; set; }

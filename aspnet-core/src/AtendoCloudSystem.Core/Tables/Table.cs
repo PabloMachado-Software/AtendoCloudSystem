@@ -21,7 +21,7 @@ namespace AtendoCloudSystem.Tables
         public virtual int TenantId { get; set; }
 
         [Required]
-        public virtual string numero { get; protected set; }
+        public virtual string Numero { get; protected set; }
 
         public virtual string Description { get; protected set; }
 
@@ -41,12 +41,13 @@ namespace AtendoCloudSystem.Tables
 
         }
 
-        public static Table Create(int tenantId, string status, DateTime date, string description = null)
+        public static Table Create(int tenantId, string numero, string description, string status)
         {
             var @Table = new Table
             {
                 Id = Guid.NewGuid(),
                 TenantId = tenantId,
+                Numero = numero,
                 Status = status,
                 CreatorUserId = tenantId,
                 Description = description,
@@ -54,7 +55,7 @@ namespace AtendoCloudSystem.Tables
 
            @Table.Registrations = new Collection<TableRegistration>();
 
-            return @Table;
+           return @Table;
         }
     }
 }

@@ -7,29 +7,26 @@ import {
   ElementRef,
   OnInit,
 } from "@angular/core";
-import { DatePipe } from "@angular/common";
 import {
   TableServiceProxy,
   CreateTableInput,
 } from "@shared/service-proxies/service-proxies";
 import { AppComponentBase } from "@shared/app-component-base";
 import { BsModalRef } from "ngx-bootstrap/modal";
-import * as moment from "moment";
 
 @Component({
   templateUrl: "./create-table.component.html",
 })
 export class CreateTableComponent extends AppComponentBase implements OnInit {
-  saving = false;
+  saving = true;
   table = new CreateTableInput();
   
-  @ViewChild("TableDate") eventDate: ElementRef;
+  @ViewChild("TableDate") tableDate: ElementRef;
   @Output() onSave = new EventEmitter<any>();
 
   constructor(
     injector: Injector,
     private _tableService: TableServiceProxy,
-    private datePipe: DatePipe,
     public bsModalRef: BsModalRef
   ) {
     super(injector);
@@ -38,19 +35,6 @@ export class CreateTableComponent extends AppComponentBase implements OnInit {
 
   save(): void {
     this.saving = true;
-
-    const selectedDate = moment(
-      this.datePipe.transform(this.eventDate.nativeElement.value, "yyyy-MM-dd")
-    );
-    const today = moment().startOf("day");
-
-    if (selectedDate.isBefore(today)) {
-      this.notify.error(this.l("PastDateError"));
-      this.saving = false;
-      return;
-    }
-
-    this.table.date = selectedDate;
 
     this._tableService.create(this.table).subscribe(
       () => {

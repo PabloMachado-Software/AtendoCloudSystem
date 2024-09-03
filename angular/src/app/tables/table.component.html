@@ -35,18 +35,12 @@
               <div class="row">
                 <div class="col-md-6" *ngFor="let table of tables">
                   <div
-                    class="card table-card text-white p-3"
-                    [class]="
-                      table.isCancelled
-                        ? 'card bg-red text-white p-3'
-                        : 'card table-card text-white p-3'
-                    "
-                  >
+                    class="card table-card text-white p-3">
                     <div class="header">
                       <div class="row">
                         <div class="col-md-7">
                           <h5>
-                            {{ table.title }}
+                            {{ table.numero }}
                           </h5>
                         </div>
                         <div class="col-md-5">
@@ -55,45 +49,14 @@
                               <i class="fa fa-calendar"></i>
                             </li>
                             <li>
-                              <span>{{ table.date | date : "short" }}</span>
+                              <span></span>
                             </li>
                           </ul>
                         </div>
                       </div>
                       <p class="table-description">{{ table.description }}</p>
                       <div class="row">
-                        <div class="col-md-6">
-                          <small
-                            *ngIf="
-                              table.registrationsCount <
-                              table.maxRegistrationCount
-                            "
-                          >
-                            {{
-                              "XofYregistered"
-                                | localize
-                                  : table.registrationsCount
-                                  : table.maxRegistrationCount
-                            }}
-                          </small>
-                          <small
-                            *ngIf="
-                              table.maxRegistrationCount > 0 &&
-                              table.registrationsCount >=
-                              table.maxRegistrationCount
-                            "
-                          >
-                            {{
-                              "XregisteredNoNewRegistrationAvailable"
-                                | localize : table.registrationsCount
-                            }}
-                          </small>
-                          <small *ngIf="table.maxRegistrationCount <= 0">
-                            {{
-                              "XregisteredUnlimitedRegistrations"
-                                | localize : table.registrationsCount
-                            }}
-                          </small>
+                        <div class="col-md-6">                 
                         </div>
                         <div class="col-md-6 text-right">
                           <button

@@ -62,7 +62,7 @@ namespace AtendoCloudSystem.Tables
         public async Task CreateAsync(CreateTableInput input)
         {
             var tenantId = AbpSession.TenantId.Value;
-            var @table = Table.Create( tenantId, input.Description,DateTime.Now, input.Status);
+            var @table = Table.Create( tenantId, input.Numero,input.Description,input.Status);
             await _tableManager.CreateAsync(@table);
         }
 

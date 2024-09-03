@@ -878,10 +878,9 @@ export class TableServiceProxy {
 }
 
 export class CreateTableInput implements ICreateTableInput {
-    title: string;
+    numero: string;
     description: string | undefined;
-    date: moment.Moment;
-    maxRegistrationCount: number;
+    status: string;
 
     constructor(data?: ICreateTableInput) {
         if (data) {
@@ -894,10 +893,9 @@ export class CreateTableInput implements ICreateTableInput {
 
     init(_data?: any) {
         if (_data) {
-            this.title = _data["title"];
+            this.numero = _data["numnero"];
             this.description = _data["description"];
-            this.date = _data["date"] ? moment(_data["date"].toString()) : <any>undefined;
-            this.maxRegistrationCount = _data["maxRegistrationCount"];
+            this.status = _data["status"];
         }
     }
 
@@ -910,10 +908,9 @@ export class CreateTableInput implements ICreateTableInput {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["title"] = this.title;
+        data["numero"] = this.numero;
         data["description"] = this.description;
-        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
-        data["maxRegistrationCount"] = this.maxRegistrationCount;
+        data["status"] = this.status;
         return data;
     }
 
@@ -926,12 +923,10 @@ export class CreateTableInput implements ICreateTableInput {
 }
 
 export interface ICreateTableInput {
-    title: string;
+    numero: string;
     description: string | undefined;
-    date: moment.Moment;
-    maxRegistrationCount: number;
+    status: string;
 }
-
 
 
 
@@ -3021,12 +3016,9 @@ export class TableDetailOutput implements ITableDetailOutput {
     isDeleted: boolean;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
-    title: string | undefined;
+    numero: string | undefined;
     description: string | undefined;
-    date: moment.Moment;
-    isCancelled: boolean;
-    readonly maxRegistrationCount: number;
-    registrationsCount: number;
+    status: string | undefined;    
     registrations: TableRegistrationDto[] | undefined;
 
     constructor(data?: ITableDetailOutput) {
@@ -3048,12 +3040,9 @@ export class TableDetailOutput implements ITableDetailOutput {
             this.isDeleted = _data["isDeleted"];
             this.deleterUserId = _data["deleterUserId"];
             this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
-            this.title = _data["title"];
+            this.numero = _data["numero"];
             this.description = _data["description"];
-            this.date = _data["date"] ? moment(_data["date"].toString()) : <any>undefined;
-            this.isCancelled = _data["isCancelled"];
-            (<any>this).maxRegistrationCount = _data["maxRegistrationCount"];
-            this.registrationsCount = _data["registrationsCount"];
+            this.status = _data["status"];
             if (Array.isArray(_data["registrations"])) {
                 this.registrations = [] as any;
                 for (let item of _data["registrations"])
@@ -3079,12 +3068,9 @@ export class TableDetailOutput implements ITableDetailOutput {
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["title"] = this.title;
+        data["numero"] = this.numero;
         data["description"] = this.description;
-        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
-        data["isCancelled"] = this.isCancelled;
-        data["maxRegistrationCount"] = this.maxRegistrationCount;
-        data["registrationsCount"] = this.registrationsCount;
+        data["status"] = this.status;
         if (Array.isArray(this.registrations)) {
             data["registrations"] = [];
             for (let item of this.registrations)
@@ -3110,12 +3096,9 @@ export interface ITableDetailOutput {
     isDeleted: boolean;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
-    title: string | undefined;
+    numero: string | undefined;
     description: string | undefined;
-    date: moment.Moment;
-    isCancelled: boolean;
-    maxRegistrationCount: number;
-    registrationsCount: number;
+    status: string | undefined;   
     registrations: TableRegistrationDto[] | undefined;
 }
 
@@ -3128,12 +3111,9 @@ export class TableListDto implements ITableListDto {
     isDeleted: boolean;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
-    title: string | undefined;
+    numero: string | undefined;
     description: string | undefined;
-    date: moment.Moment;
-    isCancelled: boolean;
-    readonly maxRegistrationCount: number;
-    registrationsCount: number;
+    status: string | undefined;
 
     constructor(data?: ITableListDto) {
         if (data) {
@@ -3154,12 +3134,9 @@ export class TableListDto implements ITableListDto {
             this.isDeleted = _data["isDeleted"];
             this.deleterUserId = _data["deleterUserId"];
             this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
-            this.title = _data["title"];
+            this.numero = _data["numero"];
             this.description = _data["description"];
-            this.date = _data["date"] ? moment(_data["date"].toString()) : <any>undefined;
-            this.isCancelled = _data["isCancelled"];
-            (<any>this).maxRegistrationCount = _data["maxRegistrationCount"];
-            this.registrationsCount = _data["registrationsCount"];
+            this.status = _data["status"];
         }
     }
 
@@ -3180,12 +3157,9 @@ export class TableListDto implements ITableListDto {
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["title"] = this.title;
+        data["numero"] = this.numero;
         data["description"] = this.description;
-        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
-        data["isCancelled"] = this.isCancelled;
-        data["maxRegistrationCount"] = this.maxRegistrationCount;
-        data["registrationsCount"] = this.registrationsCount;
+        data["status"] = this.status;      
         return data;
     }
 
@@ -3206,12 +3180,9 @@ export interface ITableListDto {
     isDeleted: boolean;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
-    title: string | undefined;
+    numero: string | undefined;
     description: string | undefined;
-    date: moment.Moment;
-    isCancelled: boolean;
-    maxRegistrationCount: number;
-    registrationsCount: number;
+    status: string | undefined;
 }
 
 export class TableListDtoListResultDto implements ITableListDtoListResultDto {

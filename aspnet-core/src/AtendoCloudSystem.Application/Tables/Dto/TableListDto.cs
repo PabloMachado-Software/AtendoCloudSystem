@@ -14,7 +14,6 @@ namespace AtendoCloudSystem.Tables.Dto
 
         public string Status { get; set; }
 
-        public int RegistrationsCount { get; set; }
     }
 }
 

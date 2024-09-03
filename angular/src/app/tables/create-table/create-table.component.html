@@ -1,8 +1,8 @@
 <form
   class="form-horizontal"
   autocomplete="off"
-  #createMesaModal="ngForm"
-  id="frm_create_mesa"
+  #createTableModal="ngForm"
+  id="frm_create_table"
   (ngSubmit)="save()"
 >
   <abp-modal-header
@@ -13,15 +13,15 @@
   <div class="modal-body">
     <div class="form-group form-float">
       <div class="form-line">
-        <label class="form-label"> {{ "Name" | localize }}</label>
+        <label class="form-label"> {{ "Numero" | localize }}</label>
         <input
           class="form-control"
           type="text"
-          name="Title"
-          [(ngModel)]="table.title"
+          name="numero"
+          [(ngModel)]="table.numero"
           required
-          maxlength="64"
-          minlength="2"
+          maxlength="3"
+          minlength="1"
         />
       </div>
     </div>
@@ -29,7 +29,7 @@
       <div class="form-line">
         <label class="form-label"> {{ "Description" | localize }}</label>
         <textarea
-          name="Description"
+          name="description"
           class="form-control"
           [(ngModel)]="table.description"
         ></textarea>
@@ -37,34 +37,17 @@
     </div>
     <div class="form-group form-float">
       <div class="form-line">
-        <label class="form-label"> {{ "Date" | localize }}</label>
-        <input
-          type="datetime-local"
-          #MesaDate
-          name="Date"
+        <label class="form-label"> {{ "Status" | localize }}</label>
+        <textarea
+          name="status"
           class="form-control"
-        />
+          [(ngModel)]="table.status"
+        ></textarea>
       </div>
-    </div>
-    <div class="form-group form-float">
-      <div class="form-line">
-        <label class="form-label">
-          {{ "MaxRegistrationCount" | localize }} (0:
-          {{ "Unlimited" | localize }})</label
-        >
-        <input
-          type="number"
-          name="MaxRegistrationCount"
-          class="form-control"
-          [(ngModel)]="table.maxRegistrationCount"
-        />
-      </div>
-    </div>
+    </div>    
   </div>
 
   <abp-modal-footer
-    [cancelDisabled]="saving"
-    [saveDisabled]="!createMesaModal.form.valid || saving"
-    (onCancelClick)="bsModalRef.hide()"
+
   ></abp-modal-footer>
 </form>
