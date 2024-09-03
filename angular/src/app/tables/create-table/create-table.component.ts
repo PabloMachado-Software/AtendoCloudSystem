@@ -9,15 +9,15 @@ import {
 } from "@angular/core";
 import { DatePipe } from "@angular/common";
 import {
-  EventServiceProxy,
-  CreateEventInput,
+  TableServiceProxy,
+  CreateTableInput,
 } from "@shared/service-proxies/service-proxies";
 import { AppComponentBase } from "@shared/app-component-base";
 import { BsModalRef } from "ngx-bootstrap/modal";
 import * as moment from "moment";
 
 @Component({
-  templateUrl: "./create-event.component.html",
+  templateUrl: "./create-table.component.html",
 })
 export class CreateTableComponent extends AppComponentBase implements OnInit {
   saving = false;

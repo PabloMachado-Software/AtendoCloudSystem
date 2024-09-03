@@ -2,12 +2,12 @@ import { Component, OnInit, Injector } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AppComponentBase } from '@shared/app-component-base';
-import { EventDetailOutput, EventServiceProxy, EventRegisterOutput, GuidEntityDto } from '@shared/service-proxies/service-proxies';
+import { TableDetailOutput, TableServiceProxy, TableRegisterOutput, GuidEntityDto } from '@shared/service-proxies/service-proxies';
 
 import * as _ from 'lodash';
 
 @Component({
-    templateUrl: './event-detail.component.html',
+    templateUrl: './table-detail.component.html',
     animations: [appModuleAnimation()]
 })
 
@@ -18,7 +18,7 @@ export class TableDetailComponent extends AppComponentBase implements OnInit {
 
     constructor(
         injector: Injector,
-        private _TableService: TableServiceProxy,
+        private _tableService: TableServiceProxy,
         private _router: Router,
         private _activatedRoute: ActivatedRoute
     ) {
@@ -27,7 +27,7 @@ export class TableDetailComponent extends AppComponentBase implements OnInit {
 
     ngOnInit(): void {
         this._activatedRoute.params.subscribe((params: Params) => {
-            this.TableId = params['tableId'];
+            this.tableId = params['tableId'];
             this.loadTable();
         });
     }
@@ -36,9 +36,9 @@ export class TableDetailComponent extends AppComponentBase implements OnInit {
         var input = new GuidEntityDto();
         input.id = this.table.id;
         this._tableService.register(input)
-            .subscribe((result: EventRegisterOutput) => {
-                abp.notify.success('Successfully registered to event. Your registration id: ' + result.registrationId + ".");
-                this.loadEvent();
+            .subscribe((result: TableRegisterOutput) => {
+                abp.notify.success('Successfully registered to table. Your registration id: ' + result.registrationId + ".");
+                this.loadTable();
             });
     };
 
@@ -60,7 +60,7 @@ export class TableDetailComponent extends AppComponentBase implements OnInit {
         this._tableService.cancel(input)
             .subscribe(() => {
                 abp.notify.info('Canceled the table.');
-                this.backToEventsPage();
+                this.backToTablesPage();
             });
     };
 
@@ -68,18 +68,18 @@ export class TableDetailComponent extends AppComponentBase implements OnInit {
         return _.some(this.table.registrations, { userId: abp.session.userId });
     };
 
-    isEventCreator(): boolean {
+    isTableCreator(): boolean {
         return this.table.creatorUserId === abp.session.userId;
     };
 
-    loadEvent() {
+    loadTable() {
         this._tableService.getDetail(this.tableId)
-            .subscribe((result: EventDetailOutput) => {
+            .subscribe((result: TableDetailOutput) => {
                 this.table = result;       
             });
     }
 
-    backToEventsPage() {
-        this._router.navigate(['app/events']);
+    backToTablesPage() {
+        this._router.navigate(['app/tables']);
     };
 }

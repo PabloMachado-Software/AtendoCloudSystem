@@ -12,16 +12,16 @@
                 class="mr-2"
                 type="checkbox"
                 id="includeCanceledTables"
-                [(ngModel)]="includeCanceledEvents"
-                (change)="includeCanceledEventsCheckboxChanged()"
+                [(ngModel)]="includeCanceledTables"
+                (change)="includeCanceledTablesCheckboxChanged()"
               />
-              <label for="includeCanceledEvents">
-                {{ "ShowCanceledEvents" | localize }}</label
+              <label for="includeCanceledTables">
+                {{ "ShowCanceledTables" | localize }}</label
               >
               <a
                 href="javascript:;"
                 class="btn bg-blue ml-3"
-                (click)="createEvent()"
+                (click)="createTable()"
               >
                 <i class="fa fa-plus-square"></i>
                 {{ "Create" | localize }}
@@ -33,11 +33,11 @@
           <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <div class="row">
-                <div class="col-md-6" *ngFor="let event of events">
+                <div class="col-md-6" *ngFor="let table of tables">
                   <div
                     class="card event-card text-white p-3"
                     [class]="
-                      event.isCancelled
+                      table.isCancelled
                         ? 'card bg-red text-white p-3'
                         : 'card event-card text-white p-3'
                     "
@@ -46,7 +46,7 @@
                       <div class="row">
                         <div class="col-md-7">
                           <h5>
-                            {{ event.title }}
+                            {{ table.title }}
                           </h5>
                         </div>
                         <div class="col-md-5">
@@ -55,43 +55,43 @@
                               <i class="fa fa-calendar"></i>
                             </li>
                             <li>
-                              <span>{{ event.date | date : "short" }}</span>
+                              <span>{{ table.date | date : "short" }}</span>
                             </li>
                           </ul>
                         </div>
                       </div>
-                      <p class="event-description">{{ event.description }}</p>
+                      <p class="event-description">{{ table.description }}</p>
                       <div class="row">
                         <div class="col-md-6">
                           <small
                             *ngIf="
-                              event.registrationsCount <
-                              event.maxRegistrationCount
+                              table.registrationsCount <
+                              table.maxRegistrationCount
                             "
                           >
                             {{
                               "XofYregistered"
                                 | localize
-                                  : event.registrationsCount
-                                  : event.maxRegistrationCount
+                                  : table.registrationsCount
+                                  : table.maxRegistrationCount
                             }}
                           </small>
                           <small
                             *ngIf="
-                              event.maxRegistrationCount > 0 &&
-                              event.registrationsCount >=
-                                event.maxRegistrationCount
+                              table.maxRegistrationCount > 0 &&
+                              table.registrationsCount >=
+                              table.maxRegistrationCount
                             "
                           >
                             {{
                               "XregisteredNoNewRegistrationAvailable"
-                                | localize : event.registrationsCount
+                                | localize : table.registrationsCount
                             }}
                           </small>
-                          <small *ngIf="event.maxRegistrationCount <= 0">
+                          <small *ngIf="table.maxRegistrationCount <= 0">
                             {{
                               "XregisteredUnlimitedRegistrations"
-                                | localize : event.registrationsCount
+                                | localize : table.registrationsCount
                             }}
                           </small>
                         </div>
@@ -99,7 +99,7 @@
                           <button
                             type="button"
                             class="btn bg-purple waves-effect btn-sm text-white"
-                            [routerLink]="['/app/events', event.id]"
+                            [routerLink]="['/app/tables', table.id]"
                           >
                             <span class="">{{ "Details" | localize }}</span>
                             <i class="fa fa-arrow-circle-right ml-2"></i>

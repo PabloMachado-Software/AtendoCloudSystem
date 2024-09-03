@@ -8,15 +8,15 @@
               <div class="row">
                 <div class="col-md-4">
                   <h4>
-                    {{ event.title }}
+                    {{ table.title }}
                   </h4>
                 </div>
                 <div class="col-md-2">
                   <h4>
-                    <span class="event-detail-header"
+                    <span class="table-detail-header"
                       ><i class="fa fa-calendar mr-1"></i>
                       <span>{{
-                        event.date.format("YYYY-MM-DD HH:mm")
+                        table.date.format("YYYY-MM-DD HH:mm")
                       }}</span></span
                     >
                   </h4>
@@ -34,24 +34,24 @@
                           {{ "BackToTables" | localize }}
                         </button>
                         <button
-                          *ngIf="!isRegistered() && !event.isCancelled"
+                          *ngIf="!isRegistered() && !table.isCancelled"
                           type="button"
                           class="btn bg-green waves-effect waves-light"
-                          (click)="registerToEvent()"
+                          (click)="registerToTable()"
                         >
                           <i class="fa fa-star"></i> {{ "Register" | localize }}
                         </button>
                         <button
-                          *ngIf="isRegistered() && !event.isCancelled"
+                          *ngIf="isRegistered() && !table.isCancelled"
                           type="button"
                           class="btn bg-orange waves-effect waves-light"
-                          (click)="cancelRegistrationFromEvent()"
+                          (click)="cancelRegistrationFromTable()"
                         >
                           <i class="fa fa-remove"></i>
                           {{ "CancelRegistration" | localize }}
                         </button>
                         <button
-                          *ngIf="isTableCreator() && !event.isCancelled"
+                          *ngIf="isTableCreator() && !table.isCancelled"
                           type="button"
                           class="btn bg-red waves-effect waves-light"
                           (click)="cancelTable()"
@@ -68,14 +68,14 @@
             <div class="body table-responsive">
               <hr />
               <div>
-                {{ event.description }}
+                {{ table.description }}
               </div>
               <h6 class="mt-3 mb-3 text-gray text-bold">
                 {{
                   "XofYregistered"
                     | localize
-                      : event.registrationsCount
-                      : event.maxRegistrationCount
+                      : table.registrationsCount
+                      : table.maxRegistrationCount
                 }}
               </h6>
               <table class="table table-hover">
@@ -87,7 +87,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let registration of event.registrations">
+                  <tr *ngFor="let registration of table.registrations">
                     <td>{{ registration.userName }}</td>
                     <td>{{ registration.userSurname }}</td>
                     <td>
