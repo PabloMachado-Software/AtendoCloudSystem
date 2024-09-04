@@ -2,6 +2,6 @@
 {
     public class GetMenuListInput
     {
-        public bool IncludeCanceledTables { get; set; }
+        public bool IncludeCanceledMenus { get; set; }
     }
 }

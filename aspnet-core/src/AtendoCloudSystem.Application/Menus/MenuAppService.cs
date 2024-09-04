@@ -34,9 +34,7 @@ namespace AtendoCloudSystem.Menus
         public async Task<ListResultDto<MenuListDto>> GetListAsync(GetMenuListInput input)
         {
             var menus = await _menuRepository
-                .GetAll()              
-                .OrderByDescending(e => e.CreationTime)
-                .Take(64)
+                .GetAll()
                 .ToListAsync();
 
             return new ListResultDto<MenuListDto>(menus.MapTo<List<MenuListDto>>());
@@ -45,8 +43,7 @@ namespace AtendoCloudSystem.Menus
         public async Task<MenuDetailOutput> GetDetailAsync(EntityDto<Guid> input)
         {
             var @menu = await _menuRepository
-                .GetAll()
-                .Where(e => e.Id == input.Id)
+                .GetAll().Where(e => e.Id == input.Id)
                 .FirstOrDefaultAsync();
 
             if (@menu == null)

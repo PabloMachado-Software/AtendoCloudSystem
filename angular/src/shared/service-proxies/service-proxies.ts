@@ -767,114 +767,6 @@ export class TableServiceProxy {
         }
         return _observableOf(null as any);
     }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    register(body: GuidEntityDto | undefined): Observable<TableRegisterOutput> {
-        let url_ = this.baseUrl + "/api/services/app/Table/Register";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processRegister(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processRegister(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<TableRegisterOutput>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<TableRegisterOutput>;
-        }));
-    }
-
-    protected processRegister(response: HttpResponseBase): Observable<TableRegisterOutput> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = TableRegisterOutput.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    cancelRegistration(body: GuidEntityDto | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Table/CancelRegistration";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCancelRegistration(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCancelRegistration(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<void>;
-        }));
-    }
-
-    protected processCancelRegistration(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null as any);
-    }
 }
 
 export class CreateTableInput implements ICreateTableInput {
@@ -3018,8 +2910,8 @@ export class TableDetailOutput implements ITableDetailOutput {
     deletionTime: moment.Moment | undefined;
     numero: string | undefined;
     description: string | undefined;
-    status: string | undefined;    
-    registrations: TableRegistrationDto[] | undefined;
+    status: string | undefined;  
+    isCancelled: boolean;  
 
     constructor(data?: ITableDetailOutput) {
         if (data) {
@@ -3043,11 +2935,7 @@ export class TableDetailOutput implements ITableDetailOutput {
             this.numero = _data["numero"];
             this.description = _data["description"];
             this.status = _data["status"];
-            if (Array.isArray(_data["registrations"])) {
-                this.registrations = [] as any;
-                for (let item of _data["registrations"])
-                    this.registrations.push(TableRegistrationDto.fromJS(item));
-            }
+            this.isCancelled = _data["isCancelled"];          
         }
     }
 
@@ -3071,11 +2959,8 @@ export class TableDetailOutput implements ITableDetailOutput {
         data["numero"] = this.numero;
         data["description"] = this.description;
         data["status"] = this.status;
-        if (Array.isArray(this.registrations)) {
-            data["registrations"] = [];
-            for (let item of this.registrations)
-                data["registrations"].push(item.toJSON());
-        }
+        data["isCancelled"] = this.isCancelled;
+
         return data;
     }
 
@@ -3098,8 +2983,9 @@ export interface ITableDetailOutput {
     deletionTime: moment.Moment | undefined;
     numero: string | undefined;
     description: string | undefined;
-    status: string | undefined;   
-    registrations: TableRegistrationDto[] | undefined;
+    status: string | undefined;
+    isCancelled: boolean;     
+
 }
 
 export class TableListDto implements ITableListDto {
@@ -3114,6 +3000,7 @@ export class TableListDto implements ITableListDto {
     numero: string | undefined;
     description: string | undefined;
     status: string | undefined;
+    isCancelled: boolean;  
 
     constructor(data?: ITableListDto) {
         if (data) {
@@ -3137,6 +3024,7 @@ export class TableListDto implements ITableListDto {
             this.numero = _data["numero"];
             this.description = _data["description"];
             this.status = _data["status"];
+            this.isCancelled = _data["isCancelled"];
         }
     }
 
@@ -3159,7 +3047,9 @@ export class TableListDto implements ITableListDto {
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
         data["numero"] = this.numero;
         data["description"] = this.description;
-        data["status"] = this.status;      
+        data["status"] = this.status;
+        data["isCancelled"] = this.isCancelled; 
+             
         return data;
     }
 
@@ -3183,6 +3073,7 @@ export interface ITableListDto {
     numero: string | undefined;
     description: string | undefined;
     status: string | undefined;
+    isCancelled: boolean;  
 }
 
 export class TableListDtoListResultDto implements ITableListDtoListResultDto {
@@ -3234,116 +3125,6 @@ export class TableListDtoListResultDto implements ITableListDtoListResultDto {
 
 export interface ITableListDtoListResultDto {
     items: TableListDto[] | undefined;
-}
-
-export class TableRegisterOutput implements ITableRegisterOutput {
-    registrationId: number;
-
-    constructor(data?: ITableRegisterOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.registrationId = _data["registrationId"];
-        }
-    }
-
-    static fromJS(data: any): TableRegisterOutput {
-        data = typeof data === 'object' ? data : {};
-        let result = new TableRegisterOutput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["registrationId"] = this.registrationId;
-        return data;
-    }
-
-    clone(): TableRegisterOutput {
-        const json = this.toJSON();
-        let result = new TableRegisterOutput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ITableRegisterOutput {
-    registrationId: number;
-}
-
-export class TableRegistrationDto implements ITableRegistrationDto {
-    id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    readonly tableId: string;
-    readonly userId: number;
-    readonly userName: string | undefined;
-    readonly userSurname: string | undefined;
-
-    constructor(data?: ITableRegistrationDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = _data["creatorUserId"];
-            (<any>this).tableId = _data["tableId"];
-            (<any>this).userId = _data["userId"];
-            (<any>this).userName = _data["userName"];
-            (<any>this).userSurname = _data["userSurname"];
-        }
-    }
-
-    static fromJS(data: any): TableRegistrationDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new TableRegistrationDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["tableId"] = this.tableId;
-        data["userId"] = this.userId;
-        data["userName"] = this.userName;
-        data["userSurname"] = this.userSurname;
-        return data;
-    }
-
-    clone(): TableRegistrationDto {
-        const json = this.toJSON();
-        let result = new TableRegistrationDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ITableRegistrationDto {
-    id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    tableId: string;
-    userId: number;
-    userName: string | undefined;
-    userSurname: string | undefined;
 }
 
 

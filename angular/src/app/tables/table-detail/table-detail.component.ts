@@ -2,7 +2,7 @@ import { Component, OnInit, Injector } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AppComponentBase } from '@shared/app-component-base';
-import { TableDetailOutput, TableServiceProxy, TableRegisterOutput, GuidEntityDto } from '@shared/service-proxies/service-proxies';
+import { TableDetailOutput, TableServiceProxy, GuidEntityDto } from '@shared/service-proxies/service-proxies';
 
 import * as _ from 'lodash';
 
@@ -31,28 +31,7 @@ export class TableDetailComponent extends AppComponentBase implements OnInit {
             this.loadTable();
         });
     }
-
-    registerToTable(): void {
-        var input = new GuidEntityDto();
-        input.id = this.table.id;
-        this._tableService.register(input)
-            .subscribe((result: TableRegisterOutput) => {
-                abp.notify.success('Successfully registered to table. Your registration id: ' + result.registrationId + ".");
-                this.loadTable();
-            });
-    };
-
-    cancelRegistrationFromTable(): void {
-        var input = new GuidEntityDto();
-        input.id = this.table.id;
-        
-        this._tableService.cancelRegistration(input)
-            .subscribe(() => {
-                abp.notify.info('Canceled your registration.');
-                this.loadTable();
-            });
-    };
-
+   
     cancelTable(): void {
         var input = new GuidEntityDto();
         input.id = this.table.id;
@@ -62,14 +41,6 @@ export class TableDetailComponent extends AppComponentBase implements OnInit {
                 abp.notify.info('Canceled the table.');
                 this.backToTablesPage();
             });
-    };
-
-    isRegistered(): boolean {
-        return _.some(this.table.registrations, { userId: abp.session.userId });
-    };
-
-    isTableCreator(): boolean {
-        return this.table.creatorUserId === abp.session.userId;
     };
 
     loadTable() {

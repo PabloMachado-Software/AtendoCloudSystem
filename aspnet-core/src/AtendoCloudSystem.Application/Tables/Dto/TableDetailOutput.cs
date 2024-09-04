@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
+using Castle.MicroKernel.Registration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

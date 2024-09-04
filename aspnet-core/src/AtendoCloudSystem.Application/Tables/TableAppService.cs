@@ -2,10 +2,7 @@
 using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
-using Abp.Linq.Extensions;
-using Abp.Runtime.Session;
 using Abp.UI;
-using AtendoCloudSystem.Authorization.Users;
 using AtendoCloudSystem.Events.Dto;
 using AtendoCloudSystem.Tables.Dto;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +32,6 @@ namespace AtendoCloudSystem.Tables
             var tables = await _tableRepository
                 .GetAll()
                 .OrderByDescending(e => e.CreationTime)
-                .Take(64)
                 .ToListAsync();
 
             return new ListResultDto<TableListDto>(tables.MapTo<List<TableListDto>>());
@@ -44,8 +40,7 @@ namespace AtendoCloudSystem.Tables
         public async Task<TableDetailOutput> GetDetailAsync(EntityDto<Guid> input)
         {
             var @table = await _tableRepository
-                .GetAll()
-                .Where(e => e.Id == input.Id)
+                .GetAll().Where(e => e.Id == input.Id)
                 .FirstOrDefaultAsync();
 
             if (@table == null)
@@ -67,7 +62,6 @@ namespace AtendoCloudSystem.Tables
         {
             var @table = await _tableManager.GetAsync(input.Id);
             _tableManager.Cancel(@table);
-        }
-
+        }     
     }
 }

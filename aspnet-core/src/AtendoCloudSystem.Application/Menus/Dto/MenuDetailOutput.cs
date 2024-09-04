@@ -10,7 +10,6 @@ namespace AtendoCloudSystem.Menus.Dto
     [AutoMapFrom(typeof(Menu))]
     public class MenuDetailOutput : FullAuditedEntityDto<Guid>
     {
-        public Guid id { get; set; }
 
         public string Nome { get; set; }
 
