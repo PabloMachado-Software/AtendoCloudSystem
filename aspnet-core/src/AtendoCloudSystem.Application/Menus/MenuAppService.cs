@@ -21,11 +21,11 @@ namespace AtendoCloudSystem.Menus
     public class MenuAppService : AtendoCloudSystemAppServiceBase, IMenuAppService
     {
         private readonly IMenuManager _menuManager;
-        private readonly IRepository<Menu, Guid> _menuRepository;
+        private readonly IRepository<Menu, int> _menuRepository;
 
         public MenuAppService(
             IMenuManager menuManager,
-            IRepository<Menu, Guid> menuRepository)
+            IRepository<Menu, int> menuRepository)
         {
             _menuManager = menuManager;
             _menuRepository = menuRepository;
@@ -35,21 +35,15 @@ namespace AtendoCloudSystem.Menus
         {
             var menus = await _menuRepository
                 .GetAll()
-                .Include(e => e.Registrations)                
-                .OrderByDescending(e => e.CreationTime)
-                .Take(64)
                 .ToListAsync();
 
             return new ListResultDto<MenuListDto>(menus.MapTo<List<MenuListDto>>());
         }
 
-        public async Task<MenuDetailOutput> GetDetailAsync(EntityDto<Guid> input)
+        public async Task<MenuDetailOutput> GetDetailAsync(EntityDto<int> input)
         {
             var @menu = await _menuRepository
-                .GetAll()
-                .Include(e => e.Registrations)
-                .ThenInclude(r => r.User)
-                .Where(e => e.Id == input.Id)
+                .GetAll().Where(e => e.Id == input.Id)
                 .FirstOrDefaultAsync();
 
             if (@menu == null)
@@ -67,38 +61,11 @@ namespace AtendoCloudSystem.Menus
             await _menuManager.CreateAsync(@menu);
         }
 
-        public async Task CancelAsync(EntityDto<Guid> input)
+        public async Task CancelAsync(EntityDto<int> input)
         {
             var @menu = await _menuManager.GetAsync(input.Id);
             _menuManager.Cancel(@menu);
         }
-
-        public async Task<MenuRegisterOutput> RegisterAsync(EntityDto<Guid> input)
-        {
-            var registration = await RegisterAndSaveAsync(
-                await _menuManager.GetAsync(input.Id),
-                await GetCurrentUserAsync()
-                );
-
-            return new MenuRegisterOutput
-            {
-                RegistrationId = registration.Id
-            };
-        }
-
-        public async Task CancelRegistrationAsync(EntityDto<Guid> input)
-        {
-            await _menuManager.CancelRegistrationAsync(
-                await _menuManager.GetAsync(input.Id),
-                await GetCurrentUserAsync()
-                );
-        }
-
-        private async Task<MenuRegistration> RegisterAndSaveAsync(Menu @menu, User user)
-        {
-            var registration = await _menuManager.RegisterAsync(@menu, user);
-            await CurrentUnitOfWork.SaveChangesAsync();
-            return registration;
-        }
+      
     }
 }

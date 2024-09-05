@@ -5,7 +5,7 @@
 namespace AtendoCloudSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class menu : Migration
+    public partial class minha_inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

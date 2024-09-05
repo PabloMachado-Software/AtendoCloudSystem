@@ -13,14 +13,11 @@ namespace AtendoCloudSystem.Menus
     {
         Task<ListResultDto<MenuListDto>> GetListAsync(GetMenuListInput input);
 
-        Task<MenuDetailOutput> GetDetailAsync(EntityDto<Guid> input);
+        Task<MenuDetailOutput> GetDetailAsync(EntityDto<int> input);
 
         Task CreateAsync(CreateMenuInput input);
 
-        Task CancelAsync(EntityDto<Guid> input);
-
-        Task<MenuRegisterOutput> RegisterAsync(EntityDto<Guid> input);
-
-        Task CancelRegistrationAsync(EntityDto<Guid> input);
+        Task CancelAsync(EntityDto<int> input);
+      
     }
 }

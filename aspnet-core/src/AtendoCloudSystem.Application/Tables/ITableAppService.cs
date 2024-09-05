@@ -13,14 +13,10 @@ namespace AtendoCloudSystem.Tables
     {
         Task<ListResultDto<TableListDto>> GetListAsync(GetTableListInput input);
 
-        Task<TableDetailOutput> GetDetailAsync(EntityDto<Guid> input);
+        Task<TableDetailOutput> GetDetailAsync(EntityDto<int> input);
 
         Task CreateAsync(CreateTableInput input);
 
-        Task CancelAsync(EntityDto<Guid> input);
-
-        Task<TableRegisterOutput> RegisterAsync(EntityDto<Guid> input);
-
-        Task CancelRegistrationAsync(EntityDto<Guid> input);
+        Task CancelAsync(EntityDto<int> input);
     }
 }

@@ -5,7 +5,7 @@
 namespace AtendoCloudSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class menu3 : Migration
+    public partial class Add_Entities : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

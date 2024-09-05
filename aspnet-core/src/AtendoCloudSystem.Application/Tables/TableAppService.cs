@@ -2,10 +2,7 @@
 using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
-using Abp.Linq.Extensions;
-using Abp.Runtime.Session;
 using Abp.UI;
-using AtendoCloudSystem.Authorization.Users;
 using AtendoCloudSystem.Events.Dto;
 using AtendoCloudSystem.Tables.Dto;
 using Microsoft.EntityFrameworkCore;
@@ -20,11 +17,11 @@ namespace AtendoCloudSystem.Tables
     public class TableAppService : AtendoCloudSystemAppServiceBase, ITableAppService
     {
         private readonly ITableManager _tableManager;
-        private readonly IRepository<Table, Guid> _tableRepository;
+        private readonly IRepository<Table, int> _tableRepository;
 
         public TableAppService(
             ITableManager tableManager,
-            IRepository<Table, Guid> tableRepository)
+            IRepository<Table, int> tableRepository)
         {
             _tableManager = tableManager;
             _tableRepository = tableRepository;
@@ -34,21 +31,16 @@ namespace AtendoCloudSystem.Tables
         {
             var tables = await _tableRepository
                 .GetAll()
-                .Include(e => e.Registrations)                
                 .OrderByDescending(e => e.CreationTime)
-                .Take(64)
                 .ToListAsync();
 
             return new ListResultDto<TableListDto>(tables.MapTo<List<TableListDto>>());
         }
 
-        public async Task<TableDetailOutput> GetDetailAsync(EntityDto<Guid> input)
+        public async Task<TableDetailOutput> GetDetailAsync(EntityDto<int> input)
         {
             var @table = await _tableRepository
-                .GetAll()
-                .Include(e => e.Registrations)
-                .ThenInclude(r => r.User)
-                .Where(e => e.Id == input.Id)
+                .GetAll().Where(e => e.Id == input.Id)
                 .FirstOrDefaultAsync();
 
             if (@table == null)
@@ -62,42 +54,14 @@ namespace AtendoCloudSystem.Tables
         public async Task CreateAsync(CreateTableInput input)
         {
             var tenantId = AbpSession.TenantId.Value;
-            var @table = Table.Create( tenantId, input.Description,DateTime.Now, input.Status);
+            var @table = Table.Create(tenantId, input.Numero, input.Description, input.Status);
             await _tableManager.CreateAsync(@table);
         }
 
-        public async Task CancelAsync(EntityDto<Guid> input)
+        public async Task CancelAsync(EntityDto<int> input)
         {
             var @table = await _tableManager.GetAsync(input.Id);
             _tableManager.Cancel(@table);
-        }
-
-        public async Task<TableRegisterOutput> RegisterAsync(EntityDto<Guid> input)
-        {
-            var registration = await RegisterAndSaveAsync(
-                await _tableManager.GetAsync(input.Id),
-                await GetCurrentUserAsync()
-                );
-
-            return new TableRegisterOutput
-            {
-                RegistrationId = registration.Id
-            };
-        }
-
-        public async Task CancelRegistrationAsync(EntityDto<Guid> input)
-        {
-            await _tableManager.CancelRegistrationAsync(
-                await _tableManager.GetAsync(input.Id),
-                await GetCurrentUserAsync()
-                );
-        }
-
-        private async Task<TableRegistration> RegisterAndSaveAsync(Table @table, User user)
-        {
-            var registration = await _tableManager.RegisterAsync(@table, user);
-            await CurrentUnitOfWork.SaveChangesAsync();
-            return registration;
-        }
+        }     
     }
 }

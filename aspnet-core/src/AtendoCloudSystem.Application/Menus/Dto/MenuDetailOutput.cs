@@ -8,9 +8,8 @@ using System.ComponentModel.DataAnnotations;
 namespace AtendoCloudSystem.Menus.Dto
 {
     [AutoMapFrom(typeof(Menu))]
-    public class MenuDetailOutput : FullAuditedEntityDto<Guid>
+    public class MenuDetailOutput : FullAuditedEntityDto<int>
     {
-        public Guid id { get; set; }
 
         public string Nome { get; set; }
 
@@ -18,7 +17,8 @@ namespace AtendoCloudSystem.Menus.Dto
 
         public double Preco { get; set; }
 
-        public ICollection<MenuRegistrationDto> Registrations { get; set; }
+        public bool IsCancelled { get; set; }
+
     }
 }
 

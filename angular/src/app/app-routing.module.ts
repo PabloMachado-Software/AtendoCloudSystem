@@ -11,6 +11,9 @@ import { ChangePasswordComponent } from './users/change-password/change-password
 import { EventsComponent } from './events/event.component';
 import { EventDetailComponent } from './events/event-detail/event-detail.component';
 
+import { TablesComponent } from './tables/table.component';
+import { TableDetailComponent } from './tables/table-detail/table-detail.component';
+
 @NgModule({
     imports: [
         RouterModule.forChild([
@@ -22,9 +25,13 @@ import { EventDetailComponent } from './events/event-detail/event-detail.compone
                     { path: 'users', component: UsersComponent, data: { permission: 'Pages.Users' }, canActivate: [AppRouteGuard] },
                     { path: 'roles', component: RolesComponent, data: { permission: 'Pages.Roles' }, canActivate: [AppRouteGuard] },
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
+
                     { path: 'events', component: EventsComponent, data: { permission: 'Pages.Events' }, canActivate: [AppRouteGuard] },
-                    { path: 'tables', component: EventsComponent, data: { permission: 'Pages.Tables' }, canActivate: [AppRouteGuard] },
                     { path: 'events/:eventId', component: EventDetailComponent },
+                    
+                    { path: 'tables', component: TablesComponent, data: { permission: 'Pages.Tables' }, canActivate: [AppRouteGuard] },
+                    { path: 'tables/:tableId', component: TableDetailComponent },
+                    
                     { path: 'about', component: AboutComponent, canActivate: [AppRouteGuard] },
                     { path: 'update-password', component: ChangePasswordComponent, canActivate: [AppRouteGuard] }
                 ]

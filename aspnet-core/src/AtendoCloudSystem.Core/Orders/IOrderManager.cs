@@ -6,16 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AtendoCloudSystem.Menus
+namespace AtendoCloudSystem.Orders
 
 {
-    public interface IMenuManager : IDomainService
+    public interface IOrderManager : IDomainService
     {
-        Task<Menu> GetAsync(int id);
+        Task<Order> GetAsync(long id);
 
-        Task CreateAsync(Menu @menu);
+        Task CreateAsync(Order @order);
 
-        void Cancel(Menu @menu);
+        void Cancel(Order @order);
        
     }
 }

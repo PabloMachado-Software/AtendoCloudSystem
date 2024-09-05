@@ -1,19 +1,15 @@
 ﻿using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
-using Abp.Timing;
-using Abp.UI;
-using AtendoCloudSystem.Domain.Tables;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
+using AtendoCloudSystem.Domain.Tables;
 
 namespace AtendoCloudSystem.Tables
 {
     [Table("AppTables")]
-    public class Table : FullAuditedEntity<Guid>, IMustHaveTenant
+    public class Table : FullAuditedEntity<int>, IMustHaveTenant
     {
         public const int MaxNumeroLength = 3;
         public const int MaxDescriptionLength = 2048;
@@ -21,15 +17,13 @@ namespace AtendoCloudSystem.Tables
         public virtual int TenantId { get; set; }
 
         [Required]
-        public virtual string numero { get; protected set; }
+        public virtual string Numero { get; protected set; }
 
         public virtual string Description { get; protected set; }
 
         public virtual string Status { get; protected set; }
 
-
-        [ForeignKey("TableId")]
-        public virtual ICollection<TableRegistration> Registrations { get; protected set; }
+        public virtual bool IsCancelled { get; protected set; }
 
         /// <summary>
         /// We don't make constructor public and forcing to create Tables using <see cref="Create"/> method.
@@ -41,20 +35,24 @@ namespace AtendoCloudSystem.Tables
 
         }
 
-        public static Table Create(int tenantId, string status, DateTime date, string description = null)
+        public static Table Create(int tenantId, string numero, string description, string status)
         {
             var @Table = new Table
             {
-                Id = Guid.NewGuid(),
                 TenantId = tenantId,
+                Numero = numero,
                 Status = status,
                 CreatorUserId = tenantId,
                 Description = description,
             };
 
-           @Table.Registrations = new Collection<TableRegistration>();
+           return @Table;
+        }
 
-            return @Table;
+
+        internal void Cancel()
+        {
+            IsCancelled = true;
         }
     }
 }

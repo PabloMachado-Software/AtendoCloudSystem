@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AtendoCloudSystem.Migrations
 {
     [DbContext(typeof(AtendoCloudSystemDbContext))]
-    [Migration("20240831032333_menu")]
-    partial class menu
+    [Migration("20240903214816_Tables")]
+    partial class Tables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1756,6 +1756,9 @@ namespace AtendoCloudSystem.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsCancelled")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -1765,51 +1768,19 @@ namespace AtendoCloudSystem.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Numero")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TenantId")
                         .HasColumnType("int");
 
-                    b.Property<string>("numero")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("AppTables");
-                });
-
-            modelBuilder.Entity("AtendoCloudSystem.Tables.TableRegistration", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("TableId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("TenantId")
-                        .HasColumnType("int");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TableId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AppTableRegistrations");
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
@@ -2076,25 +2047,6 @@ namespace AtendoCloudSystem.Migrations
                     b.Navigation("LastModifierUser");
                 });
 
-            modelBuilder.Entity("AtendoCloudSystem.Tables.TableRegistration", b =>
-                {
-                    b.HasOne("AtendoCloudSystem.Tables.Table", "Table")
-                        .WithMany("Registrations")
-                        .HasForeignKey("TableId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AtendoCloudSystem.Authorization.Users.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Table");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
                 {
                     b.HasOne("Abp.Application.Editions.Edition", "Edition")
@@ -2167,11 +2119,6 @@ namespace AtendoCloudSystem.Migrations
                 });
 
             modelBuilder.Entity("AtendoCloudSystem.Events.Event", b =>
-                {
-                    b.Navigation("Registrations");
-                });
-
-            modelBuilder.Entity("AtendoCloudSystem.Tables.Table", b =>
                 {
                     b.Navigation("Registrations");
                 });

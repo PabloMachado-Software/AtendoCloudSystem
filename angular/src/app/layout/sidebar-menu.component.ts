@@ -63,7 +63,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
             ),
             new MenuItem(
                 this.l('Controle de Mesas'),
-                '/app/mesas',
+                '/app/tables',
                 'fas fa-chair',
                 'Pages.Tables'
             ),
@@ -71,7 +71,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
                 this.l('Cardápio'),
                 '/app/menus',
                 'fas fa-chair',
-                'Pages.Tables'
+                'Pages.Menus'
             ),
             new MenuItem(
                 this.l('Events'),

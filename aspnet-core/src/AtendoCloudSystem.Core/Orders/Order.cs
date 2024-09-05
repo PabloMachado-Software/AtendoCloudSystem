@@ -2,34 +2,30 @@
 using Abp.Domain.Entities.Auditing;
 using Abp.Timing;
 using Abp.UI;
-using AtendoCloudSystem.Domain.Menus;
+using AtendoCloudSystem.Authorization.Users;
+using AtendoCloudSystem.Domain.Orders;
+using AtendoCloudSystem.Events;
+using AtendoCloudSystem.Tables;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AtendoCloudSystem.Menus
+namespace AtendoCloudSystem.Orders
 {
-    [Table("AppMenus")]
-    public class Menu : FullAuditedEntity<int>, IMustHaveTenant
+    [Table("AppOrders")]
+    public class Order : FullAuditedEntity<long>, IMustHaveTenant
     {
-        public const int MaxTitleLength = 128;
-        public const int MaxDescriptionLength = 2048;
-
         public virtual int TenantId { get; set; }
 
-        [Required]
-        [StringLength(MaxTitleLength)]
-        public virtual string Nome { get; protected set; }
+        public virtual string Status { get; protected set; }
 
-     
-        public virtual string Categoria { get; protected set; }
+        public virtual DateTime DataHora { get; protected set; }
 
-        public virtual double Preco { get; protected set; }
+        public virtual Table Table { get; protected set; }
 
         public virtual bool IsCancelled { get; protected set; }
-
 
 
         /// <summary>
@@ -37,23 +33,22 @@ namespace AtendoCloudSystem.Menus
         /// But constructor can not be private since it's used by EntityFramework.
         /// Thats why we did it protected.
         /// </summary>
-        protected Menu()
+        protected Order()
         {
 
         }
 
-        public static Menu Create(int tenantId, string nome, string categoria, double preco)
+        public static Order Create(int tenantId, string status, DateTime dataHora, Table table)
         {
-            var @menu = new Menu
+            var @order = new Order
             {
                 TenantId = tenantId,
-                Nome = nome,
+                Status = status,
                 CreatorUserId = tenantId,
-                Categoria = categoria,
-                Preco = preco
-            };
+                Table = table,
+            };                       
 
-            return @menu;
+            return @order;
         }        
        
 

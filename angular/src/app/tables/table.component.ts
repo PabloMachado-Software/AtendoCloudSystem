@@ -1,15 +1,15 @@
 import { Component, Injector, ViewChild } from "@angular/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import {
-  EventServiceProxy,
-  EventListDto,
-  EventListDtoListResultDto,
+  TableServiceProxy,
+  TableListDto,
+  TableListDtoListResultDto,
 } from "@shared/service-proxies/service-proxies";
 import {
   PagedListingComponentBase,
   PagedRequestDto,
 } from "shared/paged-listing-component-base";
-import { CreateEventComponent } from "app/events/create-event/create-event.component";
+import { CreateTableComponent } from "app/tables/create-table/create-table.component";
 import { appModuleAnimation } from "@shared/animations/routerTransition";
 
 @Component({
@@ -20,8 +20,8 @@ export class TablesComponent extends PagedListingComponentBase<TableListDto> {
   @ViewChild("createTableModal") createTabletModal: CreateTableComponent;
 
   active: boolean = false;
-  table: TableListDto[] = [];
-  includeCanceledEvents: boolean = false;
+  tables: TableListDto[] = [];
+  includeCanceledTables: boolean = false;
 
   constructor(
     injector: Injector,
@@ -54,29 +54,29 @@ export class TablesComponent extends PagedListingComponentBase<TableListDto> {
     );
   }
 
-  includeCanceledEventsCheckboxChanged() {
-    this.loadEvent();
+  includeCanceledTablesCheckboxChanged() {
+    this.loadTable();
   }
 
-  createEvent(): void {
-    this.showCreateOrEditEventDialog();
+  createTable(): void {
+    this.showCreateOrEditTableDialog();
   }
 
-  showCreateOrEditEventDialog(): void {
-    let createOrEditEventDialog: BsModalRef;
-    createOrEditEventDialog = this._modalService.show(CreateEventComponent, {
+  showCreateOrEditTableDialog(): void {
+    let createOrEditTableDialog: BsModalRef;
+    createOrEditTableDialog = this._modalService.show(CreateTableComponent, {
       class: "modal-lg",
     });
-    createOrEditEventDialog.content.onSave.subscribe(() => {
+    createOrEditTableDialog.content.onSave.subscribe(() => {
       this.refresh();
     });
   }
 
-  loadEvent(): void {
-    this._eventService
-      .getList(this.includeCanceledEvents)
-      .subscribe((result: EventListDtoListResultDto) => {
-        this.events = result.items;
+  loadTable(): void {
+    this._tableService
+      .getList(this.includeCanceledTables)
+      .subscribe((result: TableListDtoListResultDto) => {
+        this.tables = result.items;
       });
   }
 }
