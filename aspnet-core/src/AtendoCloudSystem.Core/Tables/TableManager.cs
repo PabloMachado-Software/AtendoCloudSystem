@@ -15,17 +15,17 @@ namespace AtendoCloudSystem.Tables
     {
         public IEventBus EventBus { get; set; }
 
-        private readonly IRepository<Table, Guid> _tableRepository;
+        private readonly IRepository<Table, int> _tableRepository;
 
         public TableManager(
 
-            IRepository<Table, Guid> tableRepository)
+            IRepository<Table, int> tableRepository)
         {
             _tableRepository = tableRepository;
             EventBus = NullEventBus.Instance;
         }
 
-        public async Task<Table> GetAsync(Guid id)
+        public async Task<Table> GetAsync(int id)
         {
             var @table = await _tableRepository.FirstOrDefaultAsync(id);
             if (@table == null)

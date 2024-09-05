@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 namespace AtendoCloudSystem.Tables.Dto
 {
     [AutoMapFrom(typeof(Table))]
-    public class TableDetailOutput : FullAuditedEntityDto<Guid>
+    public class TableDetailOutput : FullAuditedEntityDto<int>
     {
         public string Numero { get; set; }
 

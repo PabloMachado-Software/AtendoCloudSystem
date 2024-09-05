@@ -5,7 +5,7 @@ using System;
 namespace AtendoCloudSystem.Tables.Dto
 {
     [AutoMapFrom(typeof(Table))]
-    public class TableListDto : FullAuditedEntityDto<Guid>
+    public class TableListDto : FullAuditedEntityDto<int>
     {
         public string Numero { get; set; }
 

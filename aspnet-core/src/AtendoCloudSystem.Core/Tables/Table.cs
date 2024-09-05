@@ -9,7 +9,7 @@ using AtendoCloudSystem.Domain.Tables;
 namespace AtendoCloudSystem.Tables
 {
     [Table("AppTables")]
-    public class Table : FullAuditedEntity<Guid>, IMustHaveTenant
+    public class Table : FullAuditedEntity<int>, IMustHaveTenant
     {
         public const int MaxNumeroLength = 3;
         public const int MaxDescriptionLength = 2048;
@@ -39,7 +39,6 @@ namespace AtendoCloudSystem.Tables
         {
             var @Table = new Table
             {
-                Id = Guid.NewGuid(),
                 TenantId = tenantId,
                 Numero = numero,
                 Status = status,

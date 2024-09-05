@@ -21,11 +21,11 @@ namespace AtendoCloudSystem.Menus
     public class MenuAppService : AtendoCloudSystemAppServiceBase, IMenuAppService
     {
         private readonly IMenuManager _menuManager;
-        private readonly IRepository<Menu, Guid> _menuRepository;
+        private readonly IRepository<Menu, int> _menuRepository;
 
         public MenuAppService(
             IMenuManager menuManager,
-            IRepository<Menu, Guid> menuRepository)
+            IRepository<Menu, int> menuRepository)
         {
             _menuManager = menuManager;
             _menuRepository = menuRepository;
@@ -40,7 +40,7 @@ namespace AtendoCloudSystem.Menus
             return new ListResultDto<MenuListDto>(menus.MapTo<List<MenuListDto>>());
         }
 
-        public async Task<MenuDetailOutput> GetDetailAsync(EntityDto<Guid> input)
+        public async Task<MenuDetailOutput> GetDetailAsync(EntityDto<int> input)
         {
             var @menu = await _menuRepository
                 .GetAll().Where(e => e.Id == input.Id)
@@ -61,7 +61,7 @@ namespace AtendoCloudSystem.Menus
             await _menuManager.CreateAsync(@menu);
         }
 
-        public async Task CancelAsync(EntityDto<Guid> input)
+        public async Task CancelAsync(EntityDto<int> input)
         {
             var @menu = await _menuManager.GetAsync(input.Id);
             _menuManager.Cancel(@menu);

@@ -6,6 +6,7 @@ using AtendoCloudSystem.MultiTenancy;
 using AtendoCloudSystem.Events;
 using AtendoCloudSystem.Tables;
 using AtendoCloudSystem.Menus;
+using AtendoCloudSystem.Orders;
 
 namespace AtendoCloudSystem.EntityFrameworkCore
 {
@@ -19,6 +20,8 @@ namespace AtendoCloudSystem.EntityFrameworkCore
         public virtual DbSet<Table> Tables { get; set; }
 
         public virtual DbSet<Menu> Menus { get; set; }
+
+        public virtual DbSet<Order> Orders { get; set; }
 
         public AtendoCloudSystemDbContext(DbContextOptions<AtendoCloudSystemDbContext> options)
             : base(options)

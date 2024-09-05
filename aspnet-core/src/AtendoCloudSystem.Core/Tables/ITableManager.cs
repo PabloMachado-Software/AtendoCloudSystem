@@ -10,7 +10,7 @@ namespace AtendoCloudSystem.Tables
 {
     public interface ITableManager : IDomainService
     {
-        Task<Table> GetAsync(Guid id);
+        Task<Table> GetAsync(int id);
 
         Task CreateAsync(Table @table);
 

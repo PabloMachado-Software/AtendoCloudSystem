@@ -13,17 +13,17 @@ namespace AtendoCloudSystem.Menus
     public class MenuManager : IMenuManager
     {
         public IEventBus EventBus { get; set; }
-        private readonly IRepository<Menu, Guid> _menuRepository;
+        private readonly IRepository<Menu, int> _menuRepository;
 
         public MenuManager(
-            IRepository<Menu, Guid> menuRepository)
+            IRepository<Menu, int> menuRepository)
         {
             _menuRepository = menuRepository;
 
             EventBus = NullEventBus.Instance;
         }
 
-        public async Task<Menu> GetAsync(Guid id)
+        public async Task<Menu> GetAsync(int id)
         {
             var @menu = await _menuRepository.FirstOrDefaultAsync(id);
             if (@menu == null)

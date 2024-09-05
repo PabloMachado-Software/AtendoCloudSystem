@@ -5,7 +5,7 @@ using System;
 namespace AtendoCloudSystem.Menus.Dto
 {
     [AutoMapFrom(typeof(Menu))]
-    public class MenuListDto : FullAuditedEntityDto<Guid>
+    public class MenuListDto : FullAuditedEntityDto<int>
     {
         public string Nome { get; set; }
 

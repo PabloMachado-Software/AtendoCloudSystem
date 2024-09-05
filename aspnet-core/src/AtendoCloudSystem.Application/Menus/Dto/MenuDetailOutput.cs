@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 namespace AtendoCloudSystem.Menus.Dto
 {
     [AutoMapFrom(typeof(Menu))]
-    public class MenuDetailOutput : FullAuditedEntityDto<Guid>
+    public class MenuDetailOutput : FullAuditedEntityDto<int>
     {
 
         public string Nome { get; set; }

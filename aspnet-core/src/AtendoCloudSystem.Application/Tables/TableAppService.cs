@@ -17,11 +17,11 @@ namespace AtendoCloudSystem.Tables
     public class TableAppService : AtendoCloudSystemAppServiceBase, ITableAppService
     {
         private readonly ITableManager _tableManager;
-        private readonly IRepository<Table, Guid> _tableRepository;
+        private readonly IRepository<Table, int> _tableRepository;
 
         public TableAppService(
             ITableManager tableManager,
-            IRepository<Table, Guid> tableRepository)
+            IRepository<Table, int> tableRepository)
         {
             _tableManager = tableManager;
             _tableRepository = tableRepository;
@@ -37,7 +37,7 @@ namespace AtendoCloudSystem.Tables
             return new ListResultDto<TableListDto>(tables.MapTo<List<TableListDto>>());
         }
 
-        public async Task<TableDetailOutput> GetDetailAsync(EntityDto<Guid> input)
+        public async Task<TableDetailOutput> GetDetailAsync(EntityDto<int> input)
         {
             var @table = await _tableRepository
                 .GetAll().Where(e => e.Id == input.Id)
@@ -58,7 +58,7 @@ namespace AtendoCloudSystem.Tables
             await _tableManager.CreateAsync(@table);
         }
 
-        public async Task CancelAsync(EntityDto<Guid> input)
+        public async Task CancelAsync(EntityDto<int> input)
         {
             var @table = await _tableManager.GetAsync(input.Id);
             _tableManager.Cancel(@table);
