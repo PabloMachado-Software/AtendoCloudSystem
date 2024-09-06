@@ -57,7 +57,7 @@ namespace AtendoCloudSystem.Menus
         public async Task CreateAsync(CreateMenuInput input)
         {
             var tenantId = AbpSession.TenantId.Value;
-            var @menu = Menu.Create(tenantId,input.Nome, input.Categoria,input.Preco);
+            var @menu = Menu.Create(tenantId, input.Nome, input.Categoria, input.Preco);
             await _menuManager.CreateAsync(@menu);
         }
 
@@ -66,6 +66,17 @@ namespace AtendoCloudSystem.Menus
             var @menu = await _menuManager.GetAsync(input.Id);
             _menuManager.Cancel(@menu);
         }
-      
+
+        public async Task DeleteAsync(int id)
+        {
+            await _menuManager.DeleteAsync(id);
+        }
+
+        public async Task<MenuDetailOutput> UpdateAsync(CreateMenuInput input)
+        {
+            var menu = input.MapTo<Menu>();
+            var menuUpdated = await _menuManager.UpdateAsync(menu);
+            return menuUpdated.MapTo<MenuDetailOutput>();
+        }
     }
 }

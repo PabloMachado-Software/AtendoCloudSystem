@@ -18,6 +18,10 @@ namespace AtendoCloudSystem.Menus
         Task CreateAsync(CreateMenuInput input);
 
         Task CancelAsync(EntityDto<int> input);
-      
+
+        Task<MenuDetailOutput> UpdateAsync(CreateMenuInput input);
+
+        Task DeleteAsync(int id);
+
     }
 }

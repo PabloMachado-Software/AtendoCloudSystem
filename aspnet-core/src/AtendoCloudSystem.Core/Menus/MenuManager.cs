@@ -43,6 +43,16 @@ namespace AtendoCloudSystem.Menus
         {
             @menu.Cancel();
             EventBus.Trigger(new MenuCancelledEvent(@menu));
-        } 
+        }
+
+        public async Task<Menu> UpdateAsync(Menu menu)
+        {
+            return await _menuRepository.UpdateAsync(menu);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _menuRepository.DeleteAsync(id);
+        }
     }
 }

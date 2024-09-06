@@ -62,6 +62,18 @@ namespace AtendoCloudSystem.Tables
         {
             var @table = await _tableManager.GetAsync(input.Id);
             _tableManager.Cancel(@table);
-        }     
+        }
+
+        public async Task DeleteTable(int id)
+        {
+            await _tableManager.DeleteAsync(id);
+        }            
+
+        public async Task<TableDetailOutput> UpdateTable(CreateTableInput input)
+        {
+            var table = input.MapTo<Table>();
+            var tableUpdated = await _tableManager.UpdateAsync(table);
+            return tableUpdated.MapTo<TableDetailOutput>();
+        }
     }
 }

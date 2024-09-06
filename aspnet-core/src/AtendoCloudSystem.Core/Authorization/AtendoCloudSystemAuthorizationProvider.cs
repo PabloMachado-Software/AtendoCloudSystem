@@ -14,6 +14,7 @@ namespace AtendoCloudSystem.Authorization
             context.CreatePermission(PermissionNames.Pages_Events, L("Events"), multiTenancySides: MultiTenancySides.Tenant);
             context.CreatePermission(PermissionNames.Pages_Tables, L("Tables"), multiTenancySides: MultiTenancySides.Tenant);
             context.CreatePermission(PermissionNames.Pages_Menus, L("Menus"), multiTenancySides: MultiTenancySides.Tenant);
+            context.CreatePermission(PermissionNames.Pages_Orders, L("Orders"), multiTenancySides: MultiTenancySides.Tenant);
             context.CreatePermission(PermissionNames.Pages_Tenants, L("Tenants"), multiTenancySides: MultiTenancySides.Host);
             
         }

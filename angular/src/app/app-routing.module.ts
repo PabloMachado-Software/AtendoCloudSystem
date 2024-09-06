@@ -14,6 +14,9 @@ import { EventDetailComponent } from './events/event-detail/event-detail.compone
 import { TablesComponent } from './tables/table.component';
 import { TableDetailComponent } from './tables/table-detail/table-detail.component';
 
+import { MenusComponent } from './menus/menus.component';
+
+
 @NgModule({
     imports: [
         RouterModule.forChild([
@@ -31,6 +34,8 @@ import { TableDetailComponent } from './tables/table-detail/table-detail.compone
                     
                     { path: 'tables', component: TablesComponent, data: { permission: 'Pages.Tables' }, canActivate: [AppRouteGuard] },
                     { path: 'tables/:tableId', component: TableDetailComponent },
+
+                    { path: 'menus', component: MenusComponent, data: { permission: 'Pages.Menus' }, canActivate: [AppRouteGuard] },
                     
                     { path: 'about', component: AboutComponent, canActivate: [AppRouteGuard] },
                     { path: 'update-password', component: ChangePasswordComponent, canActivate: [AppRouteGuard] }

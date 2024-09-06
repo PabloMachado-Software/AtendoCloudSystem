@@ -74,6 +74,12 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
                 'Pages.Menus'
             ),
             new MenuItem(
+                this.l('Pedidos'),
+                '/app/orders',
+                'fas fa-chair',
+                'Pages.Orders'
+            ),
+            new MenuItem(
                 this.l('Events'),
                 '/app/events',
                 'fas fa-calendar-days',

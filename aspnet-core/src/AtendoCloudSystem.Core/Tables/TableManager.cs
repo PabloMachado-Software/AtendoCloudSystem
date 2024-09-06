@@ -41,11 +41,21 @@ namespace AtendoCloudSystem.Tables
             await _tableRepository.InsertAsync(@table);
         }
 
-        public void Cancel(Table @table)
+        public async void Cancel(Table @table)
         {
             @table.Cancel();
             EventBus.Trigger(new TableCancelledEvent(@table));
         }
-              
+
+        public async Task<Table> UpdateAsync(Table @table)
+        {
+            return await _tableRepository.UpdateAsync(@table);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _tableRepository.DeleteAsync(id);
+        }
     }
 }
+

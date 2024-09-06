@@ -16,6 +16,10 @@ namespace AtendoCloudSystem.Orders
         Task CreateAsync(Order @order);
 
         void Cancel(Order @order);
-       
+
+        Task<Order> UpdateAsync(Order @order);
+
+        Task DeleteAsync(long id);
+
     }
 }

@@ -6,6 +6,8 @@ using Abp.Linq.Extensions;
 using Abp.Runtime.Session;
 using Abp.UI;
 using AtendoCloudSystem.Authorization.Users;
+using AtendoCloudSystem.Menus.Dto;
+using AtendoCloudSystem.Menus;
 using AtendoCloudSystem.Orders.Dto;
 using AtendoCloudSystem.Tables;
 using JetBrains.Annotations;
@@ -70,6 +72,20 @@ namespace AtendoCloudSystem.Orders
         {
             var @order = await _orderManager.GetAsync(input.Id);
             _orderManager.Cancel(@order);
-        }      
+        }
+
+        public async Task<OrderDetailOutput> UpdateAsync(CreateOrderInput input)
+        {
+            {
+                var order = input.MapTo<Order>();
+                var orderUpdated = await _orderManager.UpdateAsync(order);
+                return orderUpdated.MapTo<OrderDetailOutput>();
+            }
+        }
+
+        public async Task DeleteAsync(long id)
+        {
+            await _orderManager.DeleteAsync(id);
+        }
     }
 }
