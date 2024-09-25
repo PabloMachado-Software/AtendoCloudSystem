@@ -15,6 +15,6 @@ namespace AtendoCloudSystem
         /// Default pass phrase for SimpleStringCipher decrypt/encrypt operations
         /// </summary>
         public static readonly string DefaultPassPhrase =
-            DebugHelper.IsDebug ? "gsKxGZ012HLL3MI5" : "1cbe8f715d064f7288dbfd845b4cf207";
+            DebugHelper.IsDebug ? "gsKxGZ012HLL3MI5" : "b5a2790f84ae4ba7872928fb2cbbe102";
     }
 }

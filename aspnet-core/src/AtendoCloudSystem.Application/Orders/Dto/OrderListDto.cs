@@ -11,7 +11,9 @@ namespace AtendoCloudSystem.Orders.Dto
 
         public DateTime DataHora { get; set; }
 
-        public EntityDto<Guid> TableId { get; set; }
+        public int TableId { get; set; }
+
+        public bool IsCancelled { get; set; }
     }
 }
 

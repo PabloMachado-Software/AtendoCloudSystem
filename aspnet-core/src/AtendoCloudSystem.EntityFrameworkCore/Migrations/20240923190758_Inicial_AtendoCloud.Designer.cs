@@ -4,6 +4,7 @@ using AtendoCloudSystem.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AtendoCloudSystem.Migrations
 {
     [DbContext(typeof(AtendoCloudSystemDbContext))]
-    partial class AtendoCloudSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240923190758_Inicial_AtendoCloud")]
+    partial class Inicial_AtendoCloud
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

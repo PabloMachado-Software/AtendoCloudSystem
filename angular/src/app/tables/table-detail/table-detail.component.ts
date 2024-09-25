@@ -2,7 +2,7 @@ import { Component, OnInit, Injector } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AppComponentBase } from '@shared/app-component-base';
-import { TableDetailOutput, TableServiceProxy, GuidEntityDto } from '@shared/service-proxies/service-proxies';
+import { TableDetailOutput, TableServiceProxy, GuidEntityDto, Int32EntityDto } from '@shared/service-proxies/service-proxies';
 
 import * as _ from 'lodash';
 
@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 export class TableDetailComponent extends AppComponentBase implements OnInit {
 
     table: TableDetailOutput = new TableDetailOutput();
-    tableId:string;
+    tableId:number;
 
     constructor(
         injector: Injector,
@@ -33,7 +33,7 @@ export class TableDetailComponent extends AppComponentBase implements OnInit {
     }
    
     cancelTable(): void {
-        var input = new GuidEntityDto();
+        var input = new Int32EntityDto();
         input.id = this.table.id;
 
         this._tableService.cancel(input)

@@ -76,7 +76,7 @@ namespace AtendoCloudSystem.EntityFrameworkCore.Seed.Host
                     UserName = AbpUserBase.AdminUserName,
                     Name = "admin",
                     Surname = "admin",
-                    EmailAddress = "admin@aspnetboilerplate.com",
+                    EmailAddress = "admin@atendocloudsystem.com",
                     IsEmailConfirmed = true,
                     IsActive = true
                 };

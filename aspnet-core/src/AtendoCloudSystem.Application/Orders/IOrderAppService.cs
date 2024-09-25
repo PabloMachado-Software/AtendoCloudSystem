@@ -14,6 +14,8 @@ namespace AtendoCloudSystem.Orders
     {
         Task<ListResultDto<OrderListDto>> GetListAsync(GetOrderListInput input);
 
+        Task<ListResultDto<OrderListDto>> GetListByTableAsync(GetOrderListInput input);
+
         Task<OrderDetailOutput> GetDetailAsync(EntityDto<long> input);
 
         Task CreateAsync(CreateOrderInput input);

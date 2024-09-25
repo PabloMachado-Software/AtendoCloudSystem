@@ -4,15 +4,16 @@ using AtendoCloudSystem.Authorization.Roles;
 using AtendoCloudSystem.Authorization.Users;
 using AtendoCloudSystem.MultiTenancy;
 using AtendoCloudSystem.Events;
-using AtendoCloudSystem.Tables;
 using AtendoCloudSystem.Menus;
 using AtendoCloudSystem.Orders;
+using AtendoCloudSystem.Tables;
 
 namespace AtendoCloudSystem.EntityFrameworkCore
 {
     public class AtendoCloudSystemDbContext : AbpZeroDbContext<Tenant, Role, User, AtendoCloudSystemDbContext>
     {
         /* Define a DbSet for each entity of the application */
+
         public virtual DbSet<Event> Events { get; set; }
 
         public virtual DbSet<EventRegistration> EventRegistrations { get; set; }
@@ -22,6 +23,8 @@ namespace AtendoCloudSystem.EntityFrameworkCore
         public virtual DbSet<Menu> Menus { get; set; }
 
         public virtual DbSet<Order> Orders { get; set; }
+
+        public virtual DbSet<OrderItens> OrdersItens { get; set; }
 
         public AtendoCloudSystemDbContext(DbContextOptions<AtendoCloudSystemDbContext> options)
             : base(options)

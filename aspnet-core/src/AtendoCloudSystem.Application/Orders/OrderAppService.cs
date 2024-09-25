@@ -45,6 +45,16 @@ namespace AtendoCloudSystem.Orders
             return new ListResultDto<OrderListDto>(orders.MapTo<List<OrderListDto>>());
         }
 
+
+        public async Task<ListResultDto<OrderListDto>> GetListByTableAsync(GetOrderListInput input)
+        {
+            var orders = await _orderRepository
+                .GetAll().Where(e => e.Table.Id == input.TableId)
+                .FirstOrDefaultAsync();
+
+            return new ListResultDto<OrderListDto>(orders.MapTo<List<OrderListDto>>());
+        }
+
         public async Task<OrderDetailOutput> GetDetailAsync(EntityDto<long> input)
         {
             var @order = await _orderRepository
@@ -62,7 +72,7 @@ namespace AtendoCloudSystem.Orders
         public async Task CreateAsync(CreateOrderInput input)
         {
             var tenantId = AbpSession.TenantId.Value;
-            var table = _tableManager.GetAsync(input.TableId.Id).Result;                       
+            var table = _tableManager.GetAsync(input.TableId).Result;                       
 
             var @order = Order.Create(tenantId,input.Status, input.DataHora, table);
             await _orderManager.CreateAsync(@order);
@@ -86,6 +96,6 @@ namespace AtendoCloudSystem.Orders
         public async Task DeleteAsync(long id)
         {
             await _orderManager.DeleteAsync(id);
-        }
+        }      
     }
 }
