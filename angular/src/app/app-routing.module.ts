@@ -16,6 +16,8 @@ import { TableDetailComponent } from './tables/table-detail/table-detail.compone
 
 import { MenusComponent } from './menus/menus.component';
 
+import { OrdersComponent } from './orders/orders.component';
+
 
 @NgModule({
     imports: [
@@ -36,6 +38,8 @@ import { MenusComponent } from './menus/menus.component';
                     { path: 'tables/:tableId', component: TableDetailComponent },
 
                     { path: 'menus', component: MenusComponent, data: { permission: 'Pages.Menus' }, canActivate: [AppRouteGuard] },
+
+                    { path: 'orders', component: OrdersComponent, data: { permission: 'Pages.Orders' }, canActivate: [AppRouteGuard] },
                     
                     { path: 'about', component: AboutComponent, canActivate: [AppRouteGuard] },
                     { path: 'update-password', component: ChangePasswordComponent, canActivate: [AppRouteGuard] }

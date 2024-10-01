@@ -1,7 +1,7 @@
 <form
   class="form-horizontal"
   autocomplete="off"
-  #createMenuForm="ngForm"
+  #createOrderForm="ngForm"
   (ngSubmit)="save()"
 >
   <abp-modal-header
@@ -24,7 +24,7 @@
               required
               minlength="2"
               maxlength="32"
-              [(ngModel)]="menu.nome"
+              [(ngModel)]="order.id"
               #nameModel="ngModel"
               #nameEl
             />
@@ -47,7 +47,7 @@
               required
               minlength="2"
               maxlength="32"
-              [(ngModel)]="menu.preco"
+              [(ngModel)]="order.tableId"
               #displayNameModel="ngModel"
               #displayNameEl
             />
@@ -74,7 +74,7 @@
   </div>
   <abp-modal-footer
     [cancelDisabled]="saving"
-    [saveDisabled]="!createMenuForm.form.valid || saving"
+    [saveDisabled]="!createOrderForm.form.valid || saving"
     (onCancelClick)="bsModalRef.hide()"
   ></abp-modal-footer>
 </form>

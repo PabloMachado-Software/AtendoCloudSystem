@@ -40,7 +40,12 @@ namespace AtendoCloudSystem.Orders
         {
             var orders = await _orderRepository
                 .GetAll()
+                .Include(e => e.Table)
+                .WhereIf(!input.IncludeCanceledOrders, e => !e.IsCancelled)
+                .OrderByDescending(e => e.CreationTime)
+                .Take(64)
                 .ToListAsync();
+
 
             return new ListResultDto<OrderListDto>(orders.MapTo<List<OrderListDto>>());
         }
@@ -75,6 +80,7 @@ namespace AtendoCloudSystem.Orders
             var table = _tableManager.GetAsync(input.TableId).Result;                       
 
             var @order = Order.Create(tenantId,input.Status, input.DataHora, table);
+
             await _orderManager.CreateAsync(@order);
         }
 

@@ -9,21 +9,21 @@ import {
   import { AppComponentBase } from "@shared/app-component-base";
   import {
     PermissionDto,
-    MenuServiceProxy,
-    MenuListDto,
-    MenuListDtoListResultDto,
+    OrderServiceProxy,
+    OrderListDto,
+    OrderListDtoListResultDto,
   } from "@shared/service-proxies/service-proxies";
   import { forEach as _forEach, map as _map } from "lodash-es";
   
   @Component({
-    templateUrl: "create-menu-dialog.component.html",
+    templateUrl: "create-order-dialog.component.html",
   })
-  export class CreateMenuDialogComponent
+  export class CreateOrderDialogComponent
     extends AppComponentBase
     implements OnInit
   {
     saving = false;
-    menu = new MenuListDto();
+    order = new OrderListDto();
     permissions: PermissionDto[] = [];
     checkedPermissionsMap: { [key: string]: boolean } = {};
     defaultPermissionCheckedStatus = true;
@@ -41,16 +41,16 @@ import {
   
     constructor(
       injector: Injector,
-      private _menuService: MenuServiceProxy,
+      private _orderService: OrderServiceProxy,
       public bsModalRef: BsModalRef
     ) {
       super(injector);
     }
   
     ngOnInit(): void {
-      this._menuService
-        .getList(false)
-        .subscribe((result: MenuListDtoListResultDto) => {       
+      this._orderService
+        .getList(false, 0)
+        .subscribe((result: OrderListDtoListResultDto) => {       
          
         });     
     }
@@ -60,10 +60,10 @@ import {
     save(): void {
       this.saving = true;
   
-      const menu = new MenuListDto();
-      menu.init(this.menu);
+      const order = new OrderListDto();
+      order.init(this.order);
        
-      this._menuService.create(menu).subscribe(
+      this._orderService.create(order).subscribe(
         () => {
           this.notify.info(this.l("SavedSuccessfully"));
           this.bsModalRef.hide();

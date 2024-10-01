@@ -5701,6 +5701,7 @@ export interface IOrderListDto {
 
 export class OrderListDtoListResultDto implements IOrderListDtoListResultDto {
     items: OrderListDto[] | undefined;
+    totalCount : number;
 
     constructor(data?: IOrderListDtoListResultDto) {
         if (data) {
@@ -5748,6 +5749,7 @@ export class OrderListDtoListResultDto implements IOrderListDtoListResultDto {
 
 export interface IOrderListDtoListResultDto {
     items: OrderListDto[] | undefined;
+    totalCount : number;
 }
 
 export class PermissionDto implements IPermissionDto {

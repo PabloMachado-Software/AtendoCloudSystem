@@ -54,6 +54,12 @@ import { MenusComponent } from './menus/menus.component';
 import { CreateMenuDialogComponent } from './menus/create-menu/create-menu-dialog.component';
 import { EditMenuDialogComponent } from './menus/edit-menu/edit-menu-dialog.component';
 
+
+//Orders
+import { OrdersComponent } from './orders/orders.component'; 
+import { EditOrderDialogComponent } from './orders/edit-order/edit-order-dialog.component';
+import { CreateOrderDialogComponent } from './orders/create-order/create-order-dialog.component';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -97,7 +103,14 @@ import { EditMenuDialogComponent } from './menus/edit-menu/edit-menu-dialog.comp
         //Menus
         MenusComponent,
         CreateMenuDialogComponent,
-        EditMenuDialogComponent
+        EditMenuDialogComponent,
+
+        //Orders
+        OrdersComponent,
+        EditOrderDialogComponent,
+        CreateOrderDialogComponent,
+
+
     ],
     imports: [
         CommonModule,

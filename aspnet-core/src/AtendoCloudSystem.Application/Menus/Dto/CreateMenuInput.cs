@@ -12,5 +12,7 @@ namespace AtendoCloudSystem.Menus.Dto
         public string Categoria { get; set; }
 
         public double Preco { get; set; }
+
+        public string  Descricao { get; set; }
     }
 }
