@@ -25,6 +25,8 @@ namespace AtendoCloudSystem.Orders
 
         public virtual Table Table { get; protected set; }
 
+        public virtual int TableId { get; protected set; }
+
         public virtual bool IsCancelled { get; protected set; }
 
 
@@ -38,15 +40,15 @@ namespace AtendoCloudSystem.Orders
 
         }
 
-        public static Order Create(int tenantId, string status, DateTime dataHora, Table table)
+        public static Order Create(int tenantId, string status, DateTime dataHora, int tableId)
         {
             var @order = new Order
             {
                 TenantId = tenantId,
                 Status = status,
                 CreatorUserId = tenantId,
-                Table = table,
-            };                       
+                TableId = tableId,
+            };
 
             return @order;
         }        

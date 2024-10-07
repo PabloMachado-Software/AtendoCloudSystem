@@ -1,4 +1,6 @@
 ﻿using Abp.AutoMapper;
+using AtendoCloudSystem.Orders;
+using AtendoCloudSystem.Orders.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,7 @@ namespace AtendoCloudSystem.Payments.Dto
     [AutoMapFrom(typeof(Payment))]
     public class PaymentDetailOutput
     {
-        public long OrderID { get; set; }
+        public OrderDetailOutput Order { get; set; }
 
         public string TipoPagamento { get; set; }
 

@@ -18,6 +18,8 @@ namespace AtendoCloudSystem.Payments
 
         public virtual long  OrderID { get; set; }
 
+        public virtual Order Order { get; set; }
+
         public virtual string TipoPagamento { get; set; }
 
         public virtual decimal ValorTotal { get; set; }

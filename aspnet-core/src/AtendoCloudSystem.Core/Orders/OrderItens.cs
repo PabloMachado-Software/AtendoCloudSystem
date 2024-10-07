@@ -18,6 +18,8 @@ namespace AtendoCloudSystem.Orders
         public virtual int TenantId { get; set; }
         public virtual long OrderId { get; set; }
 
+        public virtual Order Order { get; set; }
+
         public virtual int Menu { get; set; }
 
         public virtual int Quantidade { get; set; }

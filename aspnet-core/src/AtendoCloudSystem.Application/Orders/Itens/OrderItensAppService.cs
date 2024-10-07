@@ -29,7 +29,9 @@ namespace AtendoCloudSystem.Orders.Itens
         {
             var orderItens = await _orderItensRepository
                 .GetAll()
+                .Include( e => e.OrderId == input.OrderId)               
                 .OrderByDescending(e => e.CreationTime)
+                .Take(64)
                 .ToListAsync();
 
             return new ListResultDto<OrderItensListDto>(orderItens.MapTo<List<OrderItensListDto>>());
