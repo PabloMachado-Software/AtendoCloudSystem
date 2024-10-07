@@ -3,14 +3,10 @@ using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
-using Abp.Runtime.Session;
 using Abp.UI;
-using AtendoCloudSystem.Authorization.Users;
 using AtendoCloudSystem.Orders.Dto;
 using AtendoCloudSystem.Tables;
-using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,7 +34,22 @@ namespace AtendoCloudSystem.Orders
         {
             var orders = await _orderRepository
                 .GetAll()
+                .Include(e => e.Table)
+                .WhereIf(!input.IncludeCanceledOrders, e => !e.IsCancelled)
+                .OrderByDescending(e => e.CreationTime)
+                .Take(64)
                 .ToListAsync();
+
+
+            return new ListResultDto<OrderListDto>(orders.MapTo<List<OrderListDto>>());
+        }
+
+
+        public async Task<ListResultDto<OrderListDto>> GetListByTableAsync(GetOrderListInput input)
+        {
+            var orders = await _orderRepository
+                .GetAll().Where(e => e.Table.Id == input.TableId).Include(e => e.Table)
+                .FirstOrDefaultAsync();
 
             return new ListResultDto<OrderListDto>(orders.MapTo<List<OrderListDto>>());
         }
@@ -60,9 +71,9 @@ namespace AtendoCloudSystem.Orders
         public async Task CreateAsync(CreateOrderInput input)
         {
             var tenantId = AbpSession.TenantId.Value;
-            var table = _tableManager.GetAsync(input.TableId.Id).Result;                       
 
-            var @order = Order.Create(tenantId,input.Status, input.DataHora, table);
+            var @order = Order.Create(tenantId,input.Status, input.DataHora, input.TableId);
+
             await _orderManager.CreateAsync(@order);
         }
 
@@ -70,6 +81,20 @@ namespace AtendoCloudSystem.Orders
         {
             var @order = await _orderManager.GetAsync(input.Id);
             _orderManager.Cancel(@order);
+        }
+
+        public async Task<OrderDetailOutput> UpdateAsync(CreateOrderInput input)
+        {
+            {
+                var order = input.MapTo<Order>();
+                var orderUpdated = await _orderManager.UpdateAsync(order);
+                return orderUpdated.MapTo<OrderDetailOutput>();
+            }
+        }
+
+        public async Task DeleteAsync(long id)
+        {
+            await _orderManager.DeleteAsync(id);
         }      
     }
 }

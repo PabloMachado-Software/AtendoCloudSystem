@@ -9,5 +9,11 @@
         public const string Pages_Events = "Pages.Events";
         public const string Pages_Tables = "Pages.Tables";
         public const string Pages_Menus = "Pages.Menus";
+        public const string Pages_Orders = "Pages.Orders";
+        public const string Pages_Payments = "Pages.Payments";
+
+        public const string Pages_OrderItens = "Pages.OrdersItens";
+        public const string Pages_OrderPayment = "Pages.OrderPayment";
+
     }
 }

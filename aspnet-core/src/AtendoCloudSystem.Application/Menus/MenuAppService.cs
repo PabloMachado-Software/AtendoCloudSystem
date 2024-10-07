@@ -2,15 +2,9 @@
 using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
-using Abp.Linq.Extensions;
-using Abp.Runtime.Session;
 using Abp.UI;
-using AtendoCloudSystem.Authorization.Users;
-using AtendoCloudSystem.Events.Dto;
 using AtendoCloudSystem.Menus.Dto;
-using AtendoCloudSystem.Tables.Dto;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,7 +51,7 @@ namespace AtendoCloudSystem.Menus
         public async Task CreateAsync(CreateMenuInput input)
         {
             var tenantId = AbpSession.TenantId.Value;
-            var @menu = Menu.Create(tenantId,input.Nome, input.Categoria,input.Preco);
+            var @menu = Menu.Create(tenantId, input.Nome, input.Categoria, input.Preco);
             await _menuManager.CreateAsync(@menu);
         }
 
@@ -66,6 +60,17 @@ namespace AtendoCloudSystem.Menus
             var @menu = await _menuManager.GetAsync(input.Id);
             _menuManager.Cancel(@menu);
         }
-      
+
+        public async Task DeleteAsync(int id)
+        {
+            await _menuManager.DeleteAsync(id);
+        }
+
+        public async Task<MenuDetailOutput> UpdateAsync(CreateMenuInput input)
+        {
+            var menu = input.MapTo<Menu>();
+            var menuUpdated = await _menuManager.UpdateAsync(menu);
+            return menuUpdated.MapTo<MenuDetailOutput>();
+        }
     }
 }

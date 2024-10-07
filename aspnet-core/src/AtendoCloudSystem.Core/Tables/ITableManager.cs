@@ -16,5 +16,8 @@ namespace AtendoCloudSystem.Tables
 
         void Cancel(Table @table);
 
+        Task<Table> UpdateAsync(Table @table);
+
+        Task DeleteAsync(int id);
     }
 }

@@ -44,11 +44,21 @@ import { EventsComponent } from './events/event.component';
 import { CreateEventComponent } from './events/create-event/create-event.component';
 import { EventDetailComponent } from './events/event-detail/event-detail.component';
 
-
 //table
 import { TablesComponent } from './tables/table.component';
 import { CreateTableComponent } from './tables/create-table/create-table.component';
 import { TableDetailComponent } from './tables/table-detail/table-detail.component';
+
+//Menus
+import { MenusComponent } from './menus/menus.component'; 
+import { CreateMenuDialogComponent } from './menus/create-menu/create-menu-dialog.component';
+import { EditMenuDialogComponent } from './menus/edit-menu/edit-menu-dialog.component';
+
+
+//Orders
+import { OrdersComponent } from './orders/orders.component'; 
+import { EditOrderDialogComponent } from './orders/edit-order/edit-order-dialog.component';
+import { CreateOrderDialogComponent } from './orders/create-order/create-order-dialog.component';
 
 @NgModule({
     declarations: [
@@ -88,7 +98,19 @@ import { TableDetailComponent } from './tables/table-detail/table-detail.compone
         //table
         TablesComponent,
         CreateTableComponent,
-        TableDetailComponent
+        TableDetailComponent,
+
+        //Menus
+        MenusComponent,
+        CreateMenuDialogComponent,
+        EditMenuDialogComponent,
+
+        //Orders
+        OrdersComponent,
+        EditOrderDialogComponent,
+        CreateOrderDialogComponent,
+
+
     ],
     imports: [
         CommonModule,

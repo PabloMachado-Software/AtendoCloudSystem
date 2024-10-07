@@ -23,10 +23,10 @@
     <ProjectReference Include="..\AtendoCloudSystem.EntityFrameworkCore\AtendoCloudSystem.EntityFrameworkCore.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-    <PackageReference Include="Abp.AspNetCore" Version="9.3.0" />
-    <PackageReference Include="Abp.ZeroCore" Version="9.3.0" />
-    <PackageReference Include="Abp.AspNetCore.SignalR" Version="9.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
+    <PackageReference Include="Abp.AspNetCore" Version="9.4.1" />
+    <PackageReference Include="Abp.ZeroCore" Version="9.4.1" />
+    <PackageReference Include="Abp.AspNetCore.SignalR" Version="9.4.1" />
   </ItemGroup>
 </Project>

@@ -12,8 +12,7 @@ namespace AtendoCloudSystem.Orders.Dto
 
         public DateTime DataHora { get; set; }
 
-
-        public EntityDto<int> TableId { get; set; }
+        public int TableId { get; set; }
     }
 }
 

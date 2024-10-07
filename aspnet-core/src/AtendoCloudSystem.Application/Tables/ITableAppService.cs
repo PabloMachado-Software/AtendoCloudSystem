@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using AtendoCloudSystem.Orders.Dto;
 using AtendoCloudSystem.Tables.Dto;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,9 @@ namespace AtendoCloudSystem.Tables
         Task CreateAsync(CreateTableInput input);
 
         Task CancelAsync(EntityDto<int> input);
+
+        Task<TableDetailOutput> UpdateAsync(TableListDto input);
+
+        Task DeleteAsync(int id);
     }
 }

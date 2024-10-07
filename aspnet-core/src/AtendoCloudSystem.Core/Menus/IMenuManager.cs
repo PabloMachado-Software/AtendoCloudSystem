@@ -16,6 +16,9 @@ namespace AtendoCloudSystem.Menus
         Task CreateAsync(Menu @menu);
 
         void Cancel(Menu @menu);
-       
+        Task<Menu> UpdateAsync(Menu @menu);
+
+        Task DeleteAsync(int id);
+
     }
 }

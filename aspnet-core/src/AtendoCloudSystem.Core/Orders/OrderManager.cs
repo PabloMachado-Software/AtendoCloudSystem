@@ -43,6 +43,16 @@ namespace AtendoCloudSystem.Orders
         {
             @order.Cancel();
             EventBus.Trigger(new OrderCancelledEvent(@order));
-        } 
+        }
+
+        public async Task<Order> UpdateAsync(Order @order)
+        {
+            return await _orderRepository.UpdateAsync(@order);
+        }
+
+        public async Task DeleteAsync(long id)
+        {
+            await _orderRepository.DeleteAsync(id);
+        }
     }
 }
