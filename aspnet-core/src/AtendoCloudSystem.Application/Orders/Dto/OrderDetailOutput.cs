@@ -1,6 +1,7 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using AtendoCloudSystem.Events.Dto;
+using AtendoCloudSystem.Orders.Itens.Dto;
 using AtendoCloudSystem.Tables.Dto;
 using Castle.MicroKernel.Registration;
 using System;
@@ -17,6 +18,8 @@ namespace AtendoCloudSystem.Orders.Dto
         public DateTime DataHora { get; set; }
 
         public TableDetailOutput Table { get; set; }
+
+        public OrderItensDetailOutput OrderItens { get; set; }
     }
 }
 

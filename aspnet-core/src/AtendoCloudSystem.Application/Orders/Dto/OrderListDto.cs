@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
+using AtendoCloudSystem.Orders.Itens.Dto;
 using AtendoCloudSystem.Tables.Dto;
 using System;
 
@@ -13,6 +14,8 @@ namespace AtendoCloudSystem.Orders.Dto
         public DateTime DataHora { get; set; }
 
         public TableDetailOutput Table { get; set; }
+
+         public OrderItensDetailOutput OrderItens { get; set; }
 
         public bool IsCancelled { get; set; }
     }
