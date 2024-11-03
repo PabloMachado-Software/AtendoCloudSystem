@@ -10,8 +10,16 @@ import {
   import {
     PermissionDto,
     OrderServiceProxy,
+    MenuServiceProxy,
     OrderListDto,
-    OrderListDtoListResultDto,
+    OrderListDtoListResultDto,    
+    TableListDto,
+    TableServiceProxy,
+    TableListDtoListResultDto,
+    CreateOrderInput,
+    MenuListDto,
+    MenuListDtoListResultDto,
+    OrderItensServiceProxy
   } from "@shared/service-proxies/service-proxies";
   import { forEach as _forEach, map as _map } from "lodash-es";
   
@@ -27,6 +35,8 @@ import {
     permissions: PermissionDto[] = [];
     checkedPermissionsMap: { [key: string]: boolean } = {};
     defaultPermissionCheckedStatus = true;
+    tables: TableListDto[] = [];
+    menus: MenuListDto[] = [];
 
     categories: any[] = [
       { id: 1, name: 'Bebidas' },
@@ -38,29 +48,37 @@ import {
     
     selectedCategory: string = '';
     @Output() onSave = new EventEmitter<any>();
+    selectedTable: number = 0;
+    selectedMenu: number = 0;
   
     constructor(
       injector: Injector,
+      private _tableService: TableServiceProxy,
       private _orderService: OrderServiceProxy,
+      private _orderItensService: OrderItensServiceProxy,
+      private _menuService: MenuServiceProxy,
       public bsModalRef: BsModalRef
     ) {
       super(injector);
     }
   
     ngOnInit(): void {
+
+      this.loadTable();
+      this.loadMenu();
+
       this._orderService
         .getList(false, 0)
-        .subscribe((result: OrderListDtoListResultDto) => {       
-         
+        .subscribe((result: OrderListDtoListResultDto) => {        
         });     
-    }
-
-     
+    }    
   
     save(): void {
       this.saving = true;
   
-      const order = new OrderListDto();
+      const order = new CreateOrderInput();
+      order.tableId = this.selectedTable;
+      order.menuId = this.selectedMenu;
       order.init(this.order);
        
       this._orderService.create(order).subscribe(
@@ -73,6 +91,22 @@ import {
           this.saving = false;
         }
       );
+    }
+
+    loadTable(): void {
+      this._tableService
+        .getList(false)
+        .subscribe((result: TableListDtoListResultDto) => {
+          this.tables = result.items;
+        });
+    }
+
+    loadMenu(): void {
+      this._menuService
+        .getList(false)
+        .subscribe((result: MenuListDtoListResultDto) => {
+          this.menus = result.items;
+        });
     }
   }
   
