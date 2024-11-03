@@ -12,6 +12,7 @@ import {
   MenuServiceProxy,
   MenuListDto,
   MenuDetailOutput,
+  CreateMenuInput
 } from '@shared/service-proxies/service-proxies';
 
 @Component({
@@ -43,7 +44,7 @@ export class EditMenuDialogComponent extends AppComponentBase
   save(): void {
     this.saving = true;
 
-    const menu = new MenuListDto();
+    const menu = new CreateMenuInput();
     menu.init(this.menu);
    
     this._menuService.update(menu).subscribe(
