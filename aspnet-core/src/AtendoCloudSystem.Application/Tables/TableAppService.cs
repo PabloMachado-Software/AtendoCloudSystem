@@ -31,7 +31,7 @@ namespace AtendoCloudSystem.Tables
         {
             var tables = await _tableRepository
                 .GetAll()
-                .OrderByDescending(e => e.CreationTime)
+                .OrderBy(e => e.CreationTime)
                 .ToListAsync();
 
             return new ListResultDto<TableListDto>(tables.MapTo<List<TableListDto>>());

@@ -15,5 +15,9 @@
         public const string Pages_OrderItens = "Pages.OrdersItens";
         public const string Pages_OrderPayment = "Pages.OrderPayment";
 
+        public const string Modulo_Financeiro = "Modulo.Financeiro";
+        public const string Modulo_Produto = "Modulo.Produto";
+        public const string Modulo_Venda = "Modulo.Venda";
+
     }
 }
