@@ -4,6 +4,7 @@ import {
   OnInit,
   EventEmitter,
   Output,
+  
 } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { forEach as _forEach, includes as _includes, map as _map } from 'lodash-es';
@@ -11,6 +12,7 @@ import { AppComponentBase } from '@shared/app-component-base';
 import {
   OrderServiceProxy,
   OrderListDto,
+  CreateOrderInput,
   OrderDetailOutput,
 } from '@shared/service-proxies/service-proxies';
 
@@ -43,7 +45,7 @@ export class EditOrderDialogComponent extends AppComponentBase
   save(): void {
     this.saving = true;
 
-    const order = new OrderListDto();
+    const order = new CreateOrderInput();
     order.init(this.order);
    
     this._orderService.update(order).subscribe(

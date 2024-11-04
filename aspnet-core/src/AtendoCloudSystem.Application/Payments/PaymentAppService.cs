@@ -55,7 +55,7 @@ namespace AtendoCloudSystem.Payments
         {
             var tenantId = AbpSession.TenantId.Value;
 
-            var @payment = Payment.Create(tenantId, input.OrderID, input.TipoPagamento, input.ValorTotal, input.Desconto);
+            var @payment = Payment.Create(tenantId, input.OrderID, input.TipoPagamento, input.ValorTotal, input.Desconto, input.TaxaServico);
             await _paymentManager.CreateAsync(@payment);
         }
 

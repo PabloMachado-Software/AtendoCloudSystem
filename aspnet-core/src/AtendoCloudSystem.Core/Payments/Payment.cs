@@ -26,6 +26,8 @@ namespace AtendoCloudSystem.Payments
 
         public virtual decimal Desconto { get; set; }
 
+        public virtual decimal TaxaServico { get; set; }
+
         public virtual bool IsCancelled { get; set; }
 
 
@@ -34,7 +36,7 @@ namespace AtendoCloudSystem.Payments
 
         }
 
-        public static Payment Create(int tenantId, long orderID, string tipoPagamento, decimal valorTotal, decimal desconto)
+        public static Payment Create(int tenantId, long orderID, string tipoPagamento, decimal valorTotal, decimal desconto, decimal taxaServico)
         {
             var @payment = new Payment
             {
@@ -42,12 +44,13 @@ namespace AtendoCloudSystem.Payments
                 OrderID = orderID,
                 TipoPagamento = tipoPagamento,
                 ValorTotal = valorTotal,
-                Desconto = desconto
+                Desconto = desconto,
+                TaxaServico = taxaServico
+
             };
 
             return @payment;
         }
-
 
         internal void Cancel()
         {

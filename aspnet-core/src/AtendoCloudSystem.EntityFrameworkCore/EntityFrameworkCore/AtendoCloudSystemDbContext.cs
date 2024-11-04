@@ -7,6 +7,7 @@ using AtendoCloudSystem.Events;
 using AtendoCloudSystem.Menus;
 using AtendoCloudSystem.Orders;
 using AtendoCloudSystem.Tables;
+using AtendoCloudSystem.Payments;
 
 namespace AtendoCloudSystem.EntityFrameworkCore
 {
@@ -25,6 +26,8 @@ namespace AtendoCloudSystem.EntityFrameworkCore
         public virtual DbSet<Order> Orders { get; set; }
 
         public virtual DbSet<OrderItens> OrdersItens { get; set; }
+
+        public virtual DbSet<Payment> Payments { get; set; }
 
         public AtendoCloudSystemDbContext(DbContextOptions<AtendoCloudSystemDbContext> options)
             : base(options)

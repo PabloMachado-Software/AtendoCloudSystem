@@ -18,6 +18,8 @@ namespace AtendoCloudSystem.Payments.Dto
 
         public decimal Desconto { get; set; }
 
+        public decimal TaxaServico { get; set; }
+
         public bool IsCancelled { get; set; }
     }
 }

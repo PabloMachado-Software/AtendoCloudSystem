@@ -25,6 +25,7 @@ class PagedOrdersRequestDto extends PagedRequestDto {
 })
 export class OrdersComponent extends PagedListingComponentBase<OrderListDto> {
   orders: OrderListDto[] = [];
+  
   keyword = "";
 
   constructor(

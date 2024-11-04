@@ -35,6 +35,7 @@ namespace AtendoCloudSystem.Orders
             var orders = await _orderRepository
                 .GetAll()
                 .Include(e => e.Table)
+                .Include(d => d.OrderItens)
                 .WhereIf(!input.IncludeCanceledOrders, e => !e.IsCancelled)
                 .OrderByDescending(e => e.CreationTime)
                 .Take(64)

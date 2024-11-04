@@ -6,6 +6,7 @@ using AtendoCloudSystem.Authorization.Users;
 using AtendoCloudSystem.Domain.Orders;
 using AtendoCloudSystem.Events;
 using AtendoCloudSystem.Tables;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,6 +27,8 @@ namespace AtendoCloudSystem.Orders
         public virtual Table Table { get; protected set; }
 
         public virtual int TableId { get; protected set; }
+
+        public virtual OrderItens OrderItens { get; protected set; }
 
         public virtual bool IsCancelled { get; protected set; }
 

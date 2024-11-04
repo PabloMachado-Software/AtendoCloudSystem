@@ -17,6 +17,6 @@ namespace AtendoCloudSystem.Payments
 
         Task<Payment> UpdateAsync(Payment @payments);
 
-        Task DeleteAsync(long id);
+        Task DeleteAsync(int id);
     }
 }

@@ -20,7 +20,9 @@ namespace AtendoCloudSystem.Orders
 
         public virtual Order Order { get; set; }
 
-        public virtual int Menu { get; set; }
+        public virtual int MenuId { get; set; }
+
+        public virtual Menu Menu { get; set; }
 
         public virtual int Quantidade { get; set; }
 
@@ -42,7 +44,7 @@ namespace AtendoCloudSystem.Orders
             {
                 TenantId = tenantId,
                 OrderId = orderId,
-                Menu = menu,
+                MenuId = menu,
                 Quantidade = quantidade,
                 Preco = preco
             };

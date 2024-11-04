@@ -12,6 +12,7 @@ import {
     MenuServiceProxy,
     MenuListDto,
     MenuListDtoListResultDto,
+    CreateMenuInput
   } from "@shared/service-proxies/service-proxies";
   import { forEach as _forEach, map as _map } from "lodash-es";
   
@@ -60,7 +61,7 @@ import {
     save(): void {
       this.saving = true;
   
-      const menu = new MenuListDto();
+      const menu = new CreateMenuInput();
       menu.init(this.menu);
        
       this._menuService.create(menu).subscribe(
