@@ -1682,6 +1682,342 @@ export class OrderItensServiceProxy {
 }
 
 @Injectable()
+export class PaymentServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param includeCanceledPayments (optional) 
+     * @return OK
+     */
+    getList(includeCanceledPayments: boolean | undefined): Observable<PaymentListDtoListResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Payment/GetList?";
+        if (includeCanceledPayments === null)
+            throw new Error("The parameter 'includeCanceledPayments' cannot be null.");
+        else if (includeCanceledPayments !== undefined)
+            url_ += "IncludeCanceledPayments=" + encodeURIComponent("" + includeCanceledPayments) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetList(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PaymentListDtoListResultDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PaymentListDtoListResultDto>;
+        }));
+    }
+
+    protected processGetList(response: HttpResponseBase): Observable<PaymentListDtoListResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PaymentListDtoListResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return OK
+     */
+    getDetail(id: number | undefined): Observable<PaymentDetailOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Payment/GetDetail?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetDetail(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDetail(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PaymentDetailOutput>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PaymentDetailOutput>;
+        }));
+    }
+
+    protected processGetDetail(response: HttpResponseBase): Observable<PaymentDetailOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PaymentDetailOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    create(body: CreatePaymentInput | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Payment/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    cancel(body: Int32EntityDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Payment/Cancel";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCancel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCancel(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCancel(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return OK
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Payment/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    update(body: PaymentListDto | undefined): Observable<PaymentDetailOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Payment/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PaymentDetailOutput>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PaymentDetailOutput>;
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<PaymentDetailOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PaymentDetailOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
 export class RoleServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -3897,6 +4233,7 @@ export class CreateMenuInput implements ICreateMenuInput {
     nome: string;
     categoria: string | undefined;
     preco: number;
+    descricao: string | undefined;
 
     constructor(data?: ICreateMenuInput) {
         if (data) {
@@ -3912,6 +4249,7 @@ export class CreateMenuInput implements ICreateMenuInput {
             this.nome = _data["nome"];
             this.categoria = _data["categoria"];
             this.preco = _data["preco"];
+            this.descricao = _data["descricao"];
         }
     }
 
@@ -3927,6 +4265,7 @@ export class CreateMenuInput implements ICreateMenuInput {
         data["nome"] = this.nome;
         data["categoria"] = this.categoria;
         data["preco"] = this.preco;
+        data["descricao"] = this.descricao;
         return data;
     }
 
@@ -3942,12 +4281,14 @@ export interface ICreateMenuInput {
     nome: string;
     categoria: string | undefined;
     preco: number;
+    descricao: string | undefined;
 }
 
 export class CreateOrderInput implements ICreateOrderInput {
     status: string | undefined;
     dataHora: moment.Moment;
     tableId: number;
+    menuId: number;
 
     constructor(data?: ICreateOrderInput) {
         if (data) {
@@ -3963,9 +4304,10 @@ export class CreateOrderInput implements ICreateOrderInput {
             this.status = _data["status"];
             this.dataHora = _data["dataHora"] ? moment(_data["dataHora"].toString()) : <any>undefined;
             this.tableId = _data["tableId"];
+            this.menuId = _data["menuId"];
         }
     }
-
+OrderListDtoListResultDto
     static fromJS(data: any): CreateOrderInput {
         data = typeof data === 'object' ? data : {};
         let result = new CreateOrderInput();
@@ -3978,6 +4320,7 @@ export class CreateOrderInput implements ICreateOrderInput {
         data["status"] = this.status;
         data["dataHora"] = this.dataHora ? this.dataHora.toISOString() : <any>undefined;
         data["tableId"] = this.tableId;
+        data["menuId"] = this.menuId;
         return data;
     }
 
@@ -3993,6 +4336,7 @@ export interface ICreateOrderInput {
     status: string | undefined;
     dataHora: moment.Moment;
     tableId: number;
+    menuId: number;
 }
 
 export class CreateOrderItensInput implements ICreateOrderItensInput {
@@ -4048,6 +4392,65 @@ export interface ICreateOrderItensInput {
     menuId: number;
     quantidade: number;
     preco: number;
+}
+
+export class CreatePaymentInput implements ICreatePaymentInput {
+    orderID: number;
+    tipoPagamento: string | undefined;
+    valorTotal: number;
+    desconto: number;
+    taxaServico: number;
+
+    constructor(data?: ICreatePaymentInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.orderID = _data["orderID"];
+            this.tipoPagamento = _data["tipoPagamento"];
+            this.valorTotal = _data["valorTotal"];
+            this.desconto = _data["desconto"];
+            this.taxaServico = _data["taxaServico"];
+        }
+    }
+
+    static fromJS(data: any): CreatePaymentInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreatePaymentInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["orderID"] = this.orderID;
+        data["tipoPagamento"] = this.tipoPagamento;
+        data["valorTotal"] = this.valorTotal;
+        data["desconto"] = this.desconto;
+        data["taxaServico"] = this.taxaServico;
+        return data;
+    }
+
+    clone(): CreatePaymentInput {
+        const json = this.toJSON();
+        let result = new CreatePaymentInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreatePaymentInput {
+    orderID: number;
+    tipoPagamento: string | undefined;
+    valorTotal: number;
+    desconto: number;
+    taxaServico: number;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {
@@ -4506,6 +4909,7 @@ export interface IEventListDto {
 
 export class EventListDtoListResultDto implements IEventListDtoListResultDto {
     items: EventListDto[] | undefined;
+    totalCount: number;
 
     constructor(data?: IEventListDtoListResultDto) {
         if (data) {
@@ -4553,6 +4957,7 @@ export class EventListDtoListResultDto implements IEventListDtoListResultDto {
 
 export interface IEventListDtoListResultDto {
     items: EventListDto[] | undefined;
+    totalCount: number;
 }
 
 export class EventRegisterOutput implements IEventRegisterOutput {
@@ -5229,7 +5634,7 @@ export interface IMenuListDto {
 
 export class MenuListDtoListResultDto implements IMenuListDtoListResultDto {
     items: MenuListDto[] | undefined;
-    totalCount : number;
+    totalCount: number;
 
     constructor(data?: IMenuListDtoListResultDto) {
         if (data) {
@@ -5277,7 +5682,7 @@ export class MenuListDtoListResultDto implements IMenuListDtoListResultDto {
 
 export interface IMenuListDtoListResultDto {
     items: MenuListDto[] | undefined;
-    totalCount : number;
+    totalCount: number;
 }
 
 export class OrderDetailOutput implements IOrderDetailOutput {
@@ -5291,7 +5696,8 @@ export class OrderDetailOutput implements IOrderDetailOutput {
     deletionTime: moment.Moment | undefined;
     status: string | undefined;
     dataHora: moment.Moment;
-    tableId: number;
+    table: TableDetailOutput;
+    orderItens: OrderItensDetailOutput;
 
     constructor(data?: IOrderDetailOutput) {
         if (data) {
@@ -5314,7 +5720,8 @@ export class OrderDetailOutput implements IOrderDetailOutput {
             this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
             this.status = _data["status"];
             this.dataHora = _data["dataHora"] ? moment(_data["dataHora"].toString()) : <any>undefined;
-            this.tableId = _data["tableId"];
+            this.table = _data["table"] ? TableDetailOutput.fromJS(_data["table"]) : <any>undefined;
+            this.orderItens = _data["orderItens"] ? OrderItensDetailOutput.fromJS(_data["orderItens"]) : <any>undefined;
         }
     }
 
@@ -5337,7 +5744,8 @@ export class OrderDetailOutput implements IOrderDetailOutput {
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
         data["status"] = this.status;
         data["dataHora"] = this.dataHora ? this.dataHora.toISOString() : <any>undefined;
-        data["tableId"] = this.tableId;
+        data["table"] = this.table ? this.table.toJSON() : <any>undefined;
+        data["orderItens"] = this.orderItens ? this.orderItens.toJSON() : <any>undefined;
         return data;
     }
 
@@ -5360,7 +5768,8 @@ export interface IOrderDetailOutput {
     deletionTime: moment.Moment | undefined;
     status: string | undefined;
     dataHora: moment.Moment;
-    tableId: number;
+    table: TableDetailOutput;
+    orderItens: OrderItensDetailOutput;
 }
 
 export class OrderItensDetailOutput implements IOrderItensDetailOutput {
@@ -5563,6 +5972,7 @@ export interface IOrderItensListDto {
 
 export class OrderItensListDtoListResultDto implements IOrderItensListDtoListResultDto {
     items: OrderItensListDto[] | undefined;
+    totalCount: number;
 
     constructor(data?: IOrderItensListDtoListResultDto) {
         if (data) {
@@ -5610,6 +6020,7 @@ export class OrderItensListDtoListResultDto implements IOrderItensListDtoListRes
 
 export interface IOrderItensListDtoListResultDto {
     items: OrderItensListDto[] | undefined;
+    totalCount: number;
 }
 
 export class OrderListDto implements IOrderListDto {
@@ -5623,7 +6034,8 @@ export class OrderListDto implements IOrderListDto {
     deletionTime: moment.Moment | undefined;
     status: string | undefined;
     dataHora: moment.Moment;
-    tableId: number;
+    table: TableDetailOutput;
+    orderItens: OrderItensDetailOutput;
     isCancelled: boolean;
 
     constructor(data?: IOrderListDto) {
@@ -5647,7 +6059,8 @@ export class OrderListDto implements IOrderListDto {
             this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
             this.status = _data["status"];
             this.dataHora = _data["dataHora"] ? moment(_data["dataHora"].toString()) : <any>undefined;
-            this.tableId = _data["tableId"];
+            this.table = _data["table"] ? TableDetailOutput.fromJS(_data["table"]) : <any>undefined;
+            this.orderItens = _data["orderItens"] ? OrderItensDetailOutput.fromJS(_data["orderItens"]) : <any>undefined;
             this.isCancelled = _data["isCancelled"];
         }
     }
@@ -5671,7 +6084,8 @@ export class OrderListDto implements IOrderListDto {
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
         data["status"] = this.status;
         data["dataHora"] = this.dataHora ? this.dataHora.toISOString() : <any>undefined;
-        data["tableId"] = this.tableId;
+        data["table"] = this.table ? this.table.toJSON() : <any>undefined;
+        data["orderItens"] = this.orderItens ? this.orderItens.toJSON() : <any>undefined;
         data["isCancelled"] = this.isCancelled;
         return data;
     }
@@ -5695,13 +6109,14 @@ export interface IOrderListDto {
     deletionTime: moment.Moment | undefined;
     status: string | undefined;
     dataHora: moment.Moment;
-    tableId: number;
+    table: TableDetailOutput;
+    orderItens: OrderItensDetailOutput;
     isCancelled: boolean;
 }
 
 export class OrderListDtoListResultDto implements IOrderListDtoListResultDto {
     items: OrderListDto[] | undefined;
-    totalCount : number;
+    totalCount: number;
 
     constructor(data?: IOrderListDtoListResultDto) {
         if (data) {
@@ -5749,7 +6164,186 @@ export class OrderListDtoListResultDto implements IOrderListDtoListResultDto {
 
 export interface IOrderListDtoListResultDto {
     items: OrderListDto[] | undefined;
-    totalCount : number;
+    totalCount: number;
+}
+
+export class PaymentDetailOutput implements IPaymentDetailOutput {
+    order: OrderDetailOutput;
+    tipoPagamento: string | undefined;
+    valorTotal: number;
+    desconto: number;
+    taxaServico: number;
+    isCancelled: boolean;
+
+    constructor(data?: IPaymentDetailOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.order = _data["order"] ? OrderDetailOutput.fromJS(_data["order"]) : <any>undefined;
+            this.tipoPagamento = _data["tipoPagamento"];
+            this.valorTotal = _data["valorTotal"];
+            this.desconto = _data["desconto"];
+            this.taxaServico = _data["taxaServico"];
+            this.isCancelled = _data["isCancelled"];
+        }
+    }
+
+    static fromJS(data: any): PaymentDetailOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new PaymentDetailOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["order"] = this.order ? this.order.toJSON() : <any>undefined;
+        data["tipoPagamento"] = this.tipoPagamento;
+        data["valorTotal"] = this.valorTotal;
+        data["desconto"] = this.desconto;
+        data["taxaServico"] = this.taxaServico;
+        data["isCancelled"] = this.isCancelled;
+        return data;
+    }
+
+    clone(): PaymentDetailOutput {
+        const json = this.toJSON();
+        let result = new PaymentDetailOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPaymentDetailOutput {
+    order: OrderDetailOutput;
+    tipoPagamento: string | undefined;
+    valorTotal: number;
+    desconto: number;
+    taxaServico: number;
+    isCancelled: boolean;
+}
+
+export class PaymentListDto implements IPaymentListDto {
+    orderID: number;
+    tipoPagamento: string | undefined;
+    valorTotal: number;
+    desconto: number;
+    taxaServico: number;
+    isCancelled: boolean;
+
+    constructor(data?: IPaymentListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.orderID = _data["orderID"];
+            this.tipoPagamento = _data["tipoPagamento"];
+            this.valorTotal = _data["valorTotal"];
+            this.desconto = _data["desconto"];
+            this.taxaServico = _data["taxaServico"];
+            this.isCancelled = _data["isCancelled"];
+        }
+    }
+
+    static fromJS(data: any): PaymentListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PaymentListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["orderID"] = this.orderID;
+        data["tipoPagamento"] = this.tipoPagamento;
+        data["valorTotal"] = this.valorTotal;
+        data["desconto"] = this.desconto;
+        data["taxaServico"] = this.taxaServico;
+        data["isCancelled"] = this.isCancelled;
+        return data;
+    }
+
+    clone(): PaymentListDto {
+        const json = this.toJSON();
+        let result = new PaymentListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPaymentListDto {
+    orderID: number;
+    tipoPagamento: string | undefined;
+    valorTotal: number;
+    desconto: number;
+    taxaServico: number;
+    isCancelled: boolean;
+}
+
+export class PaymentListDtoListResultDto implements IPaymentListDtoListResultDto {
+    items: PaymentListDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: IPaymentListDtoListResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(PaymentListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PaymentListDtoListResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PaymentListDtoListResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+
+    clone(): PaymentListDtoListResultDto {
+        const json = this.toJSON();
+        let result = new PaymentListDtoListResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPaymentListDtoListResultDto {
+    items: PaymentListDto[] | undefined;
+    totalCount: number;
 }
 
 export class PermissionDto implements IPermissionDto {
@@ -5809,6 +6403,7 @@ export interface IPermissionDto {
 
 export class PermissionDtoListResultDto implements IPermissionDtoListResultDto {
     items: PermissionDto[] | undefined;
+    totalCount: number;
 
     constructor(data?: IPermissionDtoListResultDto) {
         if (data) {
@@ -5856,6 +6451,7 @@ export class PermissionDtoListResultDto implements IPermissionDtoListResultDto {
 
 export interface IPermissionDtoListResultDto {
     items: PermissionDto[] | undefined;
+    totalCount: number;
 }
 
 export class RegisterInput implements IRegisterInput {
@@ -6088,6 +6684,7 @@ export interface IRoleDto {
 
 export class RoleDtoListResultDto implements IRoleDtoListResultDto {
     items: RoleDto[] | undefined;
+    totalCount: number;
 
     constructor(data?: IRoleDtoListResultDto) {
         if (data) {
@@ -6135,6 +6732,7 @@ export class RoleDtoListResultDto implements IRoleDtoListResultDto {
 
 export interface IRoleDtoListResultDto {
     items: RoleDto[] | undefined;
+    totalCount: number;
 }
 
 export class RoleDtoPagedResultDto implements IRoleDtoPagedResultDto {
@@ -6316,6 +6914,7 @@ export interface IRoleListDto {
 
 export class RoleListDtoListResultDto implements IRoleListDtoListResultDto {
     items: RoleListDto[] | undefined;
+    totalCount: number;
 
     constructor(data?: IRoleListDtoListResultDto) {
         if (data) {
@@ -6363,6 +6962,7 @@ export class RoleListDtoListResultDto implements IRoleListDtoListResultDto {
 
 export interface IRoleListDtoListResultDto {
     items: RoleListDto[] | undefined;
+    totalCount: number;
 }
 
 export class TableDetailOutput implements ITableDetailOutput {
@@ -6541,6 +7141,7 @@ export interface ITableListDto {
 
 export class TableListDtoListResultDto implements ITableListDtoListResultDto {
     items: TableListDto[] | undefined;
+    totalCount: number;
 
     constructor(data?: ITableListDtoListResultDto) {
         if (data) {
@@ -6588,6 +7189,7 @@ export class TableListDtoListResultDto implements ITableListDtoListResultDto {
 
 export interface ITableListDtoListResultDto {
     items: TableListDto[] | undefined;
+    totalCount: number;
 }
 
 export enum TenantAvailabilityState {
