@@ -4,6 +4,7 @@ using AtendoCloudSystem.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AtendoCloudSystem.Migrations
 {
     [DbContext(typeof(AtendoCloudSystemDbContext))]
-    partial class AtendoCloudSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241103230248_Todas_entidades")]
+    partial class Todas_entidades
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1866,7 +1869,7 @@ namespace AtendoCloudSystem.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("MenuId")
+                    b.Property<int>("Menu")
                         .HasColumnType("int");
 
                     b.Property<long>("OrderId")
@@ -1883,8 +1886,6 @@ namespace AtendoCloudSystem.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MenuId");
 
                     b.HasIndex("OrderId")
                         .IsUnique();
@@ -2276,19 +2277,11 @@ namespace AtendoCloudSystem.Migrations
 
             modelBuilder.Entity("AtendoCloudSystem.Orders.OrderItens", b =>
                 {
-                    b.HasOne("AtendoCloudSystem.Menus.Menu", "Menu")
-                        .WithMany()
-                        .HasForeignKey("MenuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AtendoCloudSystem.Orders.Order", "Order")
                         .WithOne("OrderItens")
                         .HasForeignKey("AtendoCloudSystem.Orders.OrderItens", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Menu");
 
                     b.Navigation("Order");
                 });
