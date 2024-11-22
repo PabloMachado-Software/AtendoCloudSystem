@@ -1821,7 +1821,7 @@ namespace AtendoCloudSystem.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TableId")
+                    b.Property<int>("TableId")
                         .HasColumnType("int");
 
                     b.Property<int>("TenantId")
@@ -1866,7 +1866,7 @@ namespace AtendoCloudSystem.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("Menu")
+                    b.Property<int>("MenuId")
                         .HasColumnType("int");
 
                     b.Property<long>("OrderId")
@@ -1884,7 +1884,69 @@ namespace AtendoCloudSystem.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MenuId");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
+
                     b.ToTable("AppOrderItens");
+                });
+
+            modelBuilder.Entity("AtendoCloudSystem.Payments.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Desconto")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsCancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("OrderID")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("TaxaServico")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TipoPagamento")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("ValorTotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderID");
+
+                    b.ToTable("AppPayments");
                 });
 
             modelBuilder.Entity("AtendoCloudSystem.Tables.Table", b =>
@@ -2205,9 +2267,41 @@ namespace AtendoCloudSystem.Migrations
                 {
                     b.HasOne("AtendoCloudSystem.Tables.Table", "Table")
                         .WithMany()
-                        .HasForeignKey("TableId");
+                        .HasForeignKey("TableId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Table");
+                });
+
+            modelBuilder.Entity("AtendoCloudSystem.Orders.OrderItens", b =>
+                {
+                    b.HasOne("AtendoCloudSystem.Menus.Menu", "Menu")
+                        .WithMany()
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AtendoCloudSystem.Orders.Order", "Order")
+                        .WithOne("OrderItens")
+                        .HasForeignKey("AtendoCloudSystem.Orders.OrderItens", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Menu");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("AtendoCloudSystem.Payments.Payment", b =>
+                {
+                    b.HasOne("AtendoCloudSystem.Orders.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
@@ -2284,6 +2378,11 @@ namespace AtendoCloudSystem.Migrations
             modelBuilder.Entity("AtendoCloudSystem.Events.Event", b =>
                 {
                     b.Navigation("Registrations");
+                });
+
+            modelBuilder.Entity("AtendoCloudSystem.Orders.Order", b =>
+                {
+                    b.Navigation("OrderItens");
                 });
 #pragma warning restore 612, 618
         }

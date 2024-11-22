@@ -9,27 +9,32 @@ import {
   import { AppComponentBase } from "@shared/app-component-base";
   import {
     PermissionDto,
+    PaymentServiceProxy,
     MenuServiceProxy,
-    MenuListDto,
+    PaymentListDto,
+    PaymentListDtoListResultDto,    
+    TableServiceProxy,
+    TableListDtoListResultDto,
+    CreatePaymentInput,
     MenuListDtoListResultDto,
-    CreateMenuInput
   } from "@shared/service-proxies/service-proxies";
   import { forEach as _forEach, map as _map } from "lodash-es";
   
   @Component({
-    templateUrl: "create-menu-dialog.component.html",
+    templateUrl: "create-payment-dialog.component.html",
   })
-  export class CreateMenuDialogComponent
+  export class CreatePaymentDialogComponent
     extends AppComponentBase
     implements OnInit
   {
     saving = false;
-    menu = new MenuListDto();
+    payment = new PaymentListDto();
     permissions: PermissionDto[] = [];
     checkedPermissionsMap: { [key: string]: boolean } = {};
     defaultPermissionCheckedStatus = true;
 
-   categories: any[] = [
+
+    categories: any[] = [
       { id: 1, name: 'Bebidas' },
       { id: 2, name: 'Lanches' },
       { id: 3, name: 'Pratos principais' },
@@ -42,9 +47,13 @@ import {
     
     selectedCategory: string = '';
     @Output() onSave = new EventEmitter<any>();
+    selectedTable: number = 0;
+    selectedMenu: number = 0;
   
     constructor(
       injector: Injector,
+      private _tableService: TableServiceProxy,
+      private _paymentService: PaymentServiceProxy,
       private _menuService: MenuServiceProxy,
       public bsModalRef: BsModalRef
     ) {
@@ -52,22 +61,23 @@ import {
     }
   
     ngOnInit(): void {
-      this._menuService
-        .getList(false)
-        .subscribe((result: MenuListDtoListResultDto) => {       
-         
-        });     
-    }
 
-     
+      this.loadTable();
+      this.loadMenu();
+
+      this._paymentService
+        .getList(false)
+        .subscribe((result: PaymentListDtoListResultDto) => {        
+        });     
+    }    
   
     save(): void {
       this.saving = true;
   
-      const menu = new CreateMenuInput();
-      menu.init(this.menu);
+      const payment = new CreatePaymentInput();
+      payment.init(this.payment);
        
-      this._menuService.create(menu).subscribe(
+      this._paymentService.create(payment).subscribe(
         () => {
           this.notify.info(this.l("SavedSuccessfully"));
           this.bsModalRef.hide();
@@ -77,6 +87,22 @@ import {
           this.saving = false;
         }
       );
+    }
+
+    loadTable(): void {
+      this._tableService
+        .getList(false)
+        .subscribe((result: TableListDtoListResultDto) => {
+         // this.tables = result.items;
+        });
+    }
+
+    loadMenu(): void {
+      this._menuService
+        .getList(false)
+        .subscribe((result: MenuListDtoListResultDto) => {
+          //this.menus = result.items;
+        });
     }
   }
   

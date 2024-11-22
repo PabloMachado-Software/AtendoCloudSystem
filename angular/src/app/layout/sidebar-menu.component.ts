@@ -80,7 +80,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
                 'Pages.Orders'
             ),
             new MenuItem(
-                this.l('Pagamnentos'),
+                this.l('Pagamentos'),
                 '/app/payments',
                 'fas fa-credit-card',
                 'Pages.Payments'
@@ -92,9 +92,9 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
                 'Pages.Events'
             ),
             new MenuItem(this.l('Módulos'), '', 'fas fa-circle', '', [
-                new MenuItem('Módulo Financeiro ', '', 'fas fa-dot-circle', '', []),
-                new MenuItem('Módulo Produtos', '', 'fas fa-dot-circle', '', []),
-                new MenuItem('Módulo Venda Balcão', '', 'fas fa-dot-circle', '', [])
+                new MenuItem('Módulo Financeiro ', '', 'fas fa-dot-circle', 'Modulo.Financeiro'),
+                new MenuItem('Módulo Produtos', '', 'fas fa-dot-circle', 'Modulo.Produto'),
+                new MenuItem('Módulo Venda Balcão', '', 'fas fa-dot-circle', 'Modulo.Venda')
             ])
         ];
     }

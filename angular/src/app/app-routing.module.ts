@@ -18,6 +18,8 @@ import { MenusComponent } from './menus/menus.component';
 
 import { OrdersComponent } from './orders/orders.component';
 
+import { PaymentsComponent } from './payments/payments.component';
+
 
 @NgModule({
     imports: [
@@ -40,6 +42,8 @@ import { OrdersComponent } from './orders/orders.component';
                     { path: 'menus', component: MenusComponent, data: { permission: 'Pages.Menus' }, canActivate: [AppRouteGuard] },
 
                     { path: 'orders', component: OrdersComponent, data: { permission: 'Pages.Orders' }, canActivate: [AppRouteGuard] },
+
+                    { path: 'payments', component: PaymentsComponent, data: { permission: 'Pages.Payments' }, canActivate: [AppRouteGuard] },
                     
                     { path: 'about', component: AboutComponent, canActivate: [AppRouteGuard] },
                     { path: 'update-password', component: ChangePasswordComponent, canActivate: [AppRouteGuard] }

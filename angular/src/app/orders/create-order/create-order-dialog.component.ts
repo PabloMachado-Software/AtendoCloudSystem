@@ -43,7 +43,10 @@ import {
       { id: 2, name: 'Lanches' },
       { id: 3, name: 'Pratos principais' },
       { id: 4, name: 'Sobremesas' },
-      { id: 5, name: 'Aperitivos' }
+      { id: 5, name: 'Aperitivos' },
+      { id: 6, name: 'Caldinhos' },
+      { id: 7, name: 'Refrigerantes' },
+      { id: 8, name: 'Doces' },
     ];
     
     selectedCategory: string = '';
