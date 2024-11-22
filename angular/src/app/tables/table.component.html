@@ -35,36 +35,34 @@
               <div class="row">
                 <div class="col-md-6" *ngFor="let table of tables">
                   <div
-                    class="card event-card text-white p-3">
+                    class="card table-card-free text-white p-3">
                     <div class="header">
                       <div class="row">
                         <div class="col-md-7">
                           <h5>
                             {{ table.numero }}
                           </h5>
-                        </div>
-                        <div class="col-md-5">
-                          <ul class="header-dropdown m-r-0">
-                            <li>
-                              <i class="fa fa-calendar"></i>
-                            </li>
-                            <li>
-                              <span></span>
-                            </li>
-                          </ul>
-                        </div>
+                        </div>                        
                       </div>
                       <p class="event-description">{{ table.description }}</p>
-                      <div class="row">
-                        <div class="col-md-6">                 
-                        </div>
-                        <div class="col-md-6 text-right">
+                      <div class="row">                        
+                        <div class="col-md-10 text-right">
                           <button
                             type="button"
-                            class="btn bg-purple waves-effect btn-sm text-white"
+                            class="btn bg-black waves-effect btn-sm text-white"
                             [routerLink]="['/app/tables', table.id]"
                              >
-                            <span class="">{{ "Details" | localize }}</span>
+                            <span class="">{{ "Detalhes" | localize }}</span>
+                            <i class="fa fa-arrow-circle-right ml-2"></i>
+                          </button>
+                        </div>                        
+                        <div class="col-md-0 text-right">
+                          <button
+                            type="button"
+                            class="btn bg-black waves-effect btn-sm text-white"
+                            [routerLink]="['/app/tables', table.id]"
+                             >
+                            <span class="">{{ "Pedido" | localize }}</span>
                             <i class="fa fa-arrow-circle-right ml-2"></i>
                           </button>
                         </div>

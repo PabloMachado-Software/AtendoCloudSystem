@@ -31,6 +31,13 @@ export class CreateTableComponent extends AppComponentBase implements OnInit {
   ) {
     super(injector);
   }
+
+  status: any[] = [
+    { id: 1, name: 'Livre' },
+    { id: 2, name: 'Ocupada' },
+    { id: 3, name: 'Reservada' },
+  ];
+  
   ngOnInit(): void {}
 
   save(): void {

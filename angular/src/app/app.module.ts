@@ -60,6 +60,11 @@ import { OrdersComponent } from './orders/orders.component';
 import { EditOrderDialogComponent } from './orders/edit-order/edit-order-dialog.component';
 import { CreateOrderDialogComponent } from './orders/create-order/create-order-dialog.component';
 
+//Payments
+import { PaymentsComponent } from './payments/payments.component'; 
+import { EditPaymentDialogComponent } from './payments/edit-payment/edit-payment-dialog.component';
+import { CreatePaymentDialogComponent } from './payments/create-payment/create-payment-dialog.component';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -109,6 +114,11 @@ import { CreateOrderDialogComponent } from './orders/create-order/create-order-d
         OrdersComponent,
         EditOrderDialogComponent,
         CreateOrderDialogComponent,
+
+        //Payments
+        PaymentsComponent,
+        EditPaymentDialogComponent,
+        CreatePaymentDialogComponent,
 
 
     ],
