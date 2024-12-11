@@ -125,4 +125,3 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para m
 2. **Substitua** as informações como `seu_usuario` e `sua_senha` pela configuração do banco de dados que você estiver utilizando.
 3. **Atualize** qualquer informação específica para o seu projeto que seja diferente do que está descrito.
 
-Este README fornece uma visão clara do projeto e instruções detalhadas para instalação e execução. Se precisar de mais ajustes ou informações adicionais, estou aqui para ajudar!
